@@ -21,5 +21,20 @@ admin.site.register(TourGuides)
 #Events
 admin.site.register(Category)
 admin.site.register(Tag)
-admin.site.register(Event)
-admin.site.register(EventGallery)
+
+class EventGalleryInline(admin.TabularInline):
+    model = EventGallery
+    extra = 3  # Number of empty forms to display
+    fields = ('image', 'caption')
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('title', 'start_date', 'location', 'status', 'is_featured')
+    list_filter = ('status', 'event_type', 'is_featured', 'categories')
+    search_fields = ('title', 'location', 'organizer')
+    inlines = [EventGalleryInline]
+    filter_horizontal = ('categories', 'tags')
+
+@admin.register(EventGallery)
+class EventGalleryAdmin(admin.ModelAdmin):
+    list_display = ('event', 'caption', 'image')
+    list_filter = ('event',)

@@ -1,6 +1,8 @@
 from django.urls import path
 from django.conf import settings
 from .views import *
+from django.conf.urls.static import static
+
 
 from django.contrib.auth import views as auth_views
 
@@ -50,5 +52,5 @@ urlpatterns = [
      path('events/', events_view, name='events'),  # Use 'events' as the name
      path('events/<int:event_id>/learnmore/', learnmore_view, name='learnmore'),
     # events ends here
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
