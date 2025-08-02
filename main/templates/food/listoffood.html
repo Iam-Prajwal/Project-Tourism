@@ -4,7 +4,7 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f1e8;
     margin: 0;
-    padding: 20px 0;
+    padding: 0;
   }
 
   .recipe-section {
@@ -52,9 +52,9 @@
   }
 
   .recipe-image::before {
-    content: "📷";
+    {% comment %} content: "📷";
     font-size: 2rem;
-    color: #adb5bd;
+    color: #adb5bd; {% endcomment %}
   }
 
   .category-tag {
@@ -223,7 +223,8 @@
       <div class="col-lg-4 col-md-6 mb-2">
         <div class="recipe-card">
           <div class="recipe-image">
-            <span class="category-tag">Snacks</span>
+            {% comment %} <span class="category-tag">Snacks</span> {% endcomment %}
+            <img src="{{ i.image.url }}" alt="{{ i.name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
           </div>
           <div class="recipe-content">
             <!-- Fixed: Title and dropdown in same line -->

@@ -110,16 +110,17 @@ body {
 .hero-section {
   position: relative;
   height: 65vh;
-  background-image: url("img copy.jpg");
+  background-image: url("/media/img/bhaktapur.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  text-align: center;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
   color: #fff;
 }
-
 .overlay {
   position: absolute;
   top: 0;
@@ -133,34 +134,76 @@ body {
   position: relative;
   z-index: 2;
   padding: 2rem;
+  margin-left: 3rem;
+  margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers all children horizontally */
+  text-align: center;  /* centers text inside h1 and p */
 }
 
 .hero-content h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
 }
 
 .hero-content p {
-  font-size: 1rem;
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
   margin-bottom: 1rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .custom-btn {
-  background-color: #e8cba8;
-  color: #3a2618;
+  background: linear-gradient(90deg, #dae4a1 0%, #e8cba8 100%);
+  color: #38200e;
   border: none;
-  padding: 0.5rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  padding: 1rem 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(168, 60, 50, 0.08);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 
+    background 0.4s,
+    color 0.3s,
+    box-shadow 0.3s,
+    transform 0.2s,
+    letter-spacing 0.3s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(168, 60, 50, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+  z-index: 0;
 }
 
 .custom-btn:hover {
-  background-color: #d4b28e;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(90deg, #d4b28e 0%, #e8cba8 100%);
+  color: #a83c32;
+  box-shadow: 0 6px 24px rgba(168, 60, 50, 0.18);
+  transform: translateY(-3px) scale(1.04);
+  letter-spacing: 2px;
+}
+
+.custom-btn:hover::after {
+  width: 250px;
+  height: 250px;
 }
 
 /* Discover Section */
@@ -188,30 +231,26 @@ body {
   background-position: center;
 }
 
-.historical-bg,
-.cultural-bg,
-.cuisine-bg,
-.blogs-bg {
-  background-image: url("https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1334&q=80");
+.historical-bg {
+  background-image: url("/media/img/bouddha.png");
   position: relative;
 }
 
-.historical-bg::before,
-.cultural-bg::before,
-.cuisine-bg::before,
-.blogs-bg::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(173, 216, 230, 0.5) 0%,
-    rgba(144, 238, 144, 0.5) 100%
-  );
+.cultural-bg {
+  background-image: url("/media/img/jatra.png");
+  position: relative;
 }
+
+.cuisine-bg {
+  background-image: url("/media/img/food.png");
+  position: relative;
+}
+
+.blogs-bg {
+  background-image: url("/media/img/blogs.png");
+  position: relative;
+}
+
 
 .card-content {
   padding: 1.5rem;
@@ -325,7 +364,7 @@ body {
 
 .event-image {
   height: 160px;
-  background-image: url("https://images.unsplash.com/photo-1531251445707-5a370a1449b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80");
+  background-image: url("/media/img/jatra.png");
   background-size: cover;
   background-position: center;
 }
@@ -476,7 +515,6 @@ body {
 }
 
 /* login/ regsiter button css */
-/* From Uiverse.io by gharsh11032000 */
 .animated-button {
   position: relative;
   display: inline-block;

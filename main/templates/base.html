@@ -15,6 +15,7 @@
       crossorigin="anonymous"
     />
     <!-- Font Awesome for icons -->
+     <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700&display=swap" rel="stylesheet">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -176,12 +177,11 @@
           <div class="col-md-3">
             <h4>Quick Links</h4>
             <ul class="footer-links">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Sites</a></li>
-              <li><a href="#">Foods & Drinks</a></li>
-              <li><a href="#">Events</a></li>
-              <li><a href="#">Tourism Services</a></li>
-              <li><a href="#">Blogs</a></li>
+              <li><a href="{% url 'index' %}">Home</a></li>
+              <li><a href="{% url 'sites' %}">Sites</a></li>
+              <li><a href="{% url 'listoffood' %}">Foods & Drinks</a></li>
+              <li><a href="{% url 'events' %}">Events</a></li>
+              <li><a href="{% url 'tourism_services' %}">Tourism Services</a></li>
             </ul>
           </div>
           <div class="col-md-6 text-center">

@@ -1,18 +1,22 @@
 {% extends "base.html" %} {% load static %} {% block title %}
 <title>HBHK - Bhaktapur Tourism</title>
 {% endblock title %} {% block content %}
+
+
 <!-- Hero Section -->
 <section class="hero-section">
+  <div class="hero-image"></div>
   <div class="overlay"></div>
   <div class="hero-content">
-    <h1>BHAKTAPUR WELCOMES YOU</h1>
-    <p>A Timeless Journey Through<br />Culture, Craft, and Cuisine</p>
-    <button class="btn custom-btn">Explore More</button>
+    {% comment %} <img src="/media/img/namaste.gif" alt="Namaste" style="width:60px; margin-bottom: 18px;"> {% endcomment %}
+    <h1><br><br><br>BHAKTAPUR WELCOMES YOU</h1>
+    <p>A Timeless Journey Through Culture, Craft, and Cuisine...</p>
+    <a href="#discover-bhaktapur" class="btn custom-btn">Explore More</a>
   </div>
 </section>
 
 <!-- Discover Bhaktapur Section -->
-<section class="discover-section">
+<section class="discover-section" id="discover-bhaktapur">
   <div class="container">
     <h2 class="section-title">Discover Bhaktapur</h2>
 
@@ -26,7 +30,7 @@
               Explore ancient temples, palaces, and squares that showcase
               Nepal's rich heritage.
             </p>
-            <a href="#" class="card-link"
+            <a href="{% url 'sites' %}" class="card-link"
               >Explore Sites <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -41,7 +45,7 @@
               Experience vibrant festivals, traditional dances, and religious
               ceremonies.
             </p>
-            <a href="#" class="card-link"
+            <a href="{% url 'events' %}" class="card-link"
               >View Events <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -56,7 +60,7 @@
               Savor authentic Newari dishes and traditional delicacies unique to
               Bhaktapur.
             </p>
-            <a href="#" class="card-link"
+            <a href="{% url 'listoffood' %}" class="card-link"
               >Explore Foods <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -71,7 +75,7 @@
               View the reviews and blog posts of visitors and get to explore
               more.
             </p>
-            <a href="#" class="card-link"
+            <a href="{% url 'contribution' %}" class="card-link"
               >View Blogs <i class="fas fa-arrow-right"></i
             ></a>
           </div>
