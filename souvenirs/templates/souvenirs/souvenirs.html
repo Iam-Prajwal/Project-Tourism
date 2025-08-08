@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block extra_css %}
+
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+{% endblock %} 
+
+
+{% block content %}
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo and Title -->
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Bhaktapur Souvenirs</h1>
+                        <p>Authentic Nepali Handicrafts</p>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars" id="menuIcon"></i>
+                </button>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-section desktop-nav">
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Search souvenirs..." class="search-input">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+
+                    <!-- Wishlist -->
+                    <button class="nav-btn wishlist-btn" id="wishlistBtn">
+                        <i class="fas fa-heart"></i>
+                        <span>Wishlist</span>
+                        <span class="badge" id="wishlistCount">0</span>
+                    </button>
+
+                    <!-- Cart -->
+                    <button class="nav-btn cart-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                        <span class="badge" id="cartCount">0</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <div class="nav-section mobile-nav" id="mobileNav">
+                    <div class="mobile-search">
+                        <input type="text" id="mobileSearchInput" placeholder="Search souvenirs..." class="search-input">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div class="mobile-nav-buttons">
+                        <button class="nav-btn wishlist-btn" id="mobileWishlistBtn">
+                            <i class="fas fa-heart"></i>
+                            <span>Wishlist (<span id="mobileWishlistCount">0</span>)</span>
+                        </button>
+                        <button class="nav-btn cart-btn" id="mobileCartBtn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Cart (<span id="mobileCartCount">0</span>)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bestsellers Section -->
+    <section class="bestsellers-section" id="bestsellersSection">
+        <div class="container">
+            <div class="section-header">
+                <h2>✨ Bestsellers</h2>
+                <p>Most loved traditional crafts from Bhaktapur</p>
+            </div>
+            <div class="bestsellers-grid" id="bestsellersGrid">
+                <!-- Bestseller products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- Main Shopping Section -->
+    <div class="shopping-section">
+        <div class="container">
+            <div class="shopping-layout">
+                <!-- Filter Sidebar -->
+                <aside class="filter-sidebar" id="filterSidebar">
+                    <div class="filter-card">
+                        <div class="filter-header">
+                            <h3 class="filter-title">
+                                <i class="fas fa-filter"></i>
+                                Filters
+                                <span class="filter-badge" id="filterBadge">0</span>
+                            </h3>
+                            <button class="clear-filters-btn" id="clearFiltersBtn">Clear All</button>
+                        </div>
+
+                        <div class="filter-separator"></div>
+
+                        <!-- Sort -->
+                        <div class="filter-section">
+                            <h4 class="filter-label">Sort by</h4>
+                            <select class="filter-select" id="sortSelect">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="popularity">Most Popular</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-separator"></div>
+
+                        <!-- Categories -->
+                        <div class="filter-section">
+                            <h4 class="filter-label">Categories</h4>
+                            <div class="filter-options" id="categoryFilters">
+                                <!-- Category options will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="filter-separator"></div>
+
+                        <!-- Price Range -->
+                        <div class="filter-section">
+                            <h4 class="filter-label">Price Range</h4>
+                            <div class="filter-options" id="priceFilters">
+                                <!-- Price range options will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="filter-separator"></div>
+
+                        <!-- Additional Filters -->
+                        <div class="filter-section">
+                            <h4 class="filter-label">Additional Filters</h4>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="checkbox" id="bestsellersOnly" class="filter-checkbox">
+                                    <span class="checkmark"></span>
+                                    <span>Bestsellers Only</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" id="inStockOnly" class="filter-checkbox">
+                                    <span class="checkmark"></span>
+                                    <span>In Stock Only</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Mobile Filter Button & Controls -->
+                    <div class="mobile-controls">
+                        <button class="mobile-filter-btn" id="mobileFilterBtn">
+                            <i class="fas fa-filter"></i>
+                            Filters
+                            <span class="badge" id="mobileFilterBadge">0</span>
+                        </button>
+                        <div class="view-controls">
+                            <button class="view-btn active" id="gridViewBtn" data-view="grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" id="listViewBtn" data-view="list">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Header -->
+                    <div class="results-header">
+                        <h2 class="results-title" id="resultsTitle">All Products (8)</h2>
+                        <div class="desktop-view-controls">
+                            <button class="view-btn active" id="desktopGridViewBtn" data-view="grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" id="desktopListViewBtn" data-view="list">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-container">
+                        <div class="products-grid grid-view" id="productsGrid">
+                            <!-- Products will be loaded here -->
+                        </div>
+                        
+                        <!-- Loading State -->
+                        <div class="loading-state" id="loadingState">
+                            <div class="loading-spinner"></div>
+                            <p>Loading products...</p>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="empty-state" id="emptyState" style="display: none;">
+                            <i class="fas fa-shopping-bag empty-icon"></i>
+                            <h3>No products found</h3>
+                            <p>Try adjusting your filters or search terms</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buy Now Button -->
+    <div class="floating-buy-btn" id="floatingBuyBtn" style="display: none;">
+        <button class="buy-now-btn" id="buyNowBtn">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="buyNowText">Buy Now • 0 items</span>
+        </button>
+    </div>
+
+    <!-- Shopping Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h3 class="cart-title" id="cartTitle">Shopping Cart (0)</h3>
+                <button class="cart-close-btn" id="cartCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cart-content" id="cartContent">
+                <div class="cart-empty" id="cartEmpty">
+                    <i class="fas fa-shopping-cart empty-cart-icon"></i>
+                    <p class="empty-cart-title">Your cart is empty</p>
+                    <p class="empty-cart-text">Add some beautiful souvenirs to get started!</p>
+                </div>
+
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+            </div>
+
+            <div class="cart-footer" id="cartFooter" style="display: none;">
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">Rs. 0</span>
+                    </div>
+                    <div class="summary-row savings" id="cartSavingsRow" style="display: none;">
+                        <span>Total Savings:</span>
+                        <span id="cartSavings">Rs. 0</span>
+                    </div>
+                    <div class="summary-separator"></div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="cartTotal">Rs. 0</span>
+                    </div>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Filter Overlay -->
+    <div class="filter-overlay" id="filterOverlay">
+        <div class="filter-sidebar-mobile">
+            <div class="filter-header">
+                <h3>Filters & Sort</h3>
+                <button class="filter-close-btn" id="filterCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="filter-content" id="mobileFilterContent">
+                <!-- Mobile filter content will be cloned from desktop sidebar -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <h3>Bhaktapur Souvenirs</h3>
+                <p>Preserving Nepal\'s rich cultural heritage through authentic handicrafts</p>
+                <div class="footer-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span>Trusted by thousands of customers</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="{% static 'js/mockData.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/filters.js' %}"></script>
+    <script src="{% static 'js/products.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+{% endblock %}

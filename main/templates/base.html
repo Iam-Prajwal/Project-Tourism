@@ -76,6 +76,13 @@
                 <i class="far fa-calendar-alt"></i> Events
               </a>
             </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if request.path == '/souvenirs/' %} active {% endif %}"
+                href="{% url 'souvenirs:souvenir_list' %}"
+                ><i class="fas fa-gift"></i> Souvenirs</a
+              >
+            </li>
 
             <li class="nav-item">
               <a

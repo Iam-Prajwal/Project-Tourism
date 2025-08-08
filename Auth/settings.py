@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'django.contrib.humanize',
     'phonenumber_field',
+    'souvenirs',
     
 ]
 
