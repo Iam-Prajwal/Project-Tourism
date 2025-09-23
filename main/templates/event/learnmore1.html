@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }} | Bhaktapur Tourism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% if event.image %}{{ event.image.url }}{% else %}https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80{% endif %}');
+            background-size: cover; background-position: center; height: 400px;
+        }
+        .event-card { transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);}
+        .event-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);}
+        .gallery-image { transition: all 0.3s ease; cursor: pointer;}
+        .gallery-image:hover { transform: scale(1.03);}
+        .back-btn { transition: all 0.3s ease;}
+        .back-btn:hover { transform: translateX(-5px);}
+        .animate-fade-in { animation: fadeIn 0.8s ease-in-out;}
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);}}
+        .map-container { height: 300px; border-radius: 12px; overflow: hidden;}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{% url 'index' %}" class="flex items-center">
+                        <img class="h-10 w-auto" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bhaktapur_Municipality_logo.png/1200px-Bhaktapur_Municipality_logo.png" alt="Bhaktapur Tourism Logo">
+                        <span class="ml-2 text-xl font-bold text-gray-800">Bhaktapur Tourism</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{% url 'index' %}" class="text-gray-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="#" class="text-gray-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">Places</a>
+                    <a href="{% url 'events' %}" class="text-amber-600 border-b-2 border-amber-600 px-3 py-2 text-sm font-medium">Events</a>
+                    <a href="#" class="text-gray-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">Culture</a>
+                    <a href="#" class="text-gray-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">Food</a>
+                    <a href="#" class="bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-amber-700 transition">Login</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="text-gray-800">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Event Details Section -->
+    <div class="animate-fade-in">
+        <!-- Hero Section with Event Title -->
+        <div class="hero-section flex items-center justify-center text-center text-white">
+            <div>
+                <div class="text-sm uppercase tracking-widest mb-2">{{ event.event_type }}</div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ event.title }}</h1>
+                <div class="flex justify-center items-center space-x-4">
+                    <div class="flex items-center">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>
+                            {{ event.start_date|date:"F j, Y" }}{% if event.end_date %} - {{ event.end_date|date:"F j, Y" }}{% endif %}
+                        </span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        <span>{{ event.location }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Back Button -->
+            <a href="{% url 'events' %}" class="back-btn inline-flex items-center text-amber-600 mb-6">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Events
+            </a>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - Event Details -->
+                <div class="lg:col-span-2">
+                    <!-- Event Description -->
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">About the Event</h2>
+                        <p class="text-gray-600 mb-4">
+                            {{ event.description }}
+                        </p>
+                    </div>
+
+                    <!-- Event Schedule -->
+                    {% if event.schedule %}
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Event Schedule</h2>
+                        <div class="space-y-4">
+                            {{ event.schedule|safe }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Photo Gallery -->
+                    {% if event.gallery_images.all %}
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Photo Gallery</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {% for image in event.gallery_images.all %}
+                            <div class="gallery-image overflow-hidden rounded-lg">
+                                <img src="{{ image.url }}" alt="{{ event.title }}" class="w-full h-40 object-cover hover:opacity-90 transition">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Right Column - Event Info Sidebar -->
+                <div class="space-y-6">
+                    <!-- Quick Info Card -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Quick Info</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="text-amber-600 mr-3 mt-1">
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-700">Date</h3>
+                                    <p class="text-gray-600">
+                                        {{ event.start_date|date:"F j, Y" }}{% if event.end_date %} - {{ event.end_date|date:"F j, Y" }}{% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="text-amber-600 mr-3 mt-1">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-700">Location</h3>
+                                    <p class="text-gray-600">{{ event.location }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="text-amber-600 mr-3 mt-1">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-700">Category</h3>
+                                    <p class="text-gray-600">{{ event.event_type }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="text-amber-600 mr-3 mt-1">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-700">Participants</h3>
+                                    <p class="text-gray-600">{% if event.participants %}{{ event.participants }}{% else %}Open to Public{% endif %}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="text-amber-600 mr-3 mt-1">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-700">Ticket</h3>
+                                    <p class="text-gray-600">{% if event.ticket_info %}{{ event.ticket_info }}{% else %}Free Entry{% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Map -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Location</h2>
+                        <div class="map-container">
+                            {% if event.map_embed %}
+                                {{ event.map_embed|safe }}
+                            {% else %}
+                                <iframe src="https://www.google.com/maps?q={{ event.location|urlencode }}&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            {% endif %}
+                        </div>
+                        <div class="mt-4">
+                            <a href="https://www.google.com/maps/search/?api=1&query={{ event.location|urlencode }}" target="_blank" class="inline-flex items-center text-amber-600">
+                                <i class="fas fa-directions mr-2"></i>
+                                Get Directions
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Organizer Info -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Organizer</h2>
+                        <div class="flex items-center">
+                            <img src="{% if event.organizer_logo %}{{ event.organizer_logo.url }}{% else %}https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bhaktapur_Municipality_logo.png/1200px-Bhaktapur_Municipality_logo.png{% endif %}" alt="Organizer" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <div>
+                                <h3 class="font-medium text-gray-800">{% if event.organizer_name %}{{ event.organizer_name }}{% else %}Bhaktapur Municipality{% endif %}</h3>
+                                <p class="text-gray-600 text-sm">{% if event.organizer_department %}{{ event.organizer_department }}{% else %}Cultural Department{% endif %}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center text-gray-600">
+                                <i class="fas fa-phone-alt mr-2 text-sm"></i>
+                                <span class="text-sm">{% if event.organizer_phone %}{{ event.organizer_phone }}{% else %}+977 1-6610321{% endif %}</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <i class="fas fa-envelope mr-2 text-sm"></i>
+                                <span class="text-sm">{% if event.organizer_email %}{{ event.organizer_email }}{% else %}culture@bhaktapurmun.gov.np{% endif %}</span>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <i class="fas fa-globe mr-2 text-sm"></i>
+                                <span class="text-sm">{% if event.organizer_website %}{{ event.organizer_website }}{% else %}www.bhaktapurmun.gov.np{% endif %}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Share Event -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Share This Event</h2>
+                        <div class="flex space-x-4">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ event.title }}" target="_blank" class="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center hover:bg-blue-500 transition">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 transition">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-pink-600 text-white flex items-center justify-center hover:bg-pink-700 transition">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://wa.me/?text={{ event.title }}%20{{ request.build_absolute_uri }}" target="_blank" class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Bhaktapur Tourism</h3>
+                    <p class="text-gray-400">Discover the ancient city of Bhaktapur, its rich culture, heritage, and vibrant festivals.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Bhaktapur</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Places to Visit</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Events & Festivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Local Cuisine</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Visitor Information</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">How to Reach</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Best Time to Visit</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Accommodation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Travel Tips</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                    <address class="text-gray-400 not-italic">
+                        <p class="mb-2">Bhaktapur Tourism Office</p>
+                        <p class="mb-2">Durbar Square, Bhaktapur</p>
+                        <p class="mb-2">Nepal</p>
+                        <p class="mb-2">Phone: +977 1-6610321</p>
+                        <p class="mb-2">Email: info@bhaktapurtourism.com</p>
+                    </address>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Bhaktapur Tourism. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for gallery images when clicked
+        document.querySelectorAll('.gallery-image').forEach(image => {
+            image.addEventListener('click', function() {
+                this.classList.add('animate-pulse');
+                setTimeout(() => {
+                    this.classList.remove('animate-pulse');
+                }, 300);
+                // In a real implementation, this would open a lightbox/modal
+                console.log('Opening image in lightbox');
+            });
+        });
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('hidden');
+            } else {
+                backToTop.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

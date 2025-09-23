@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+        
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+
+    <style>
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        .signup-link a {
+            color: #0099ff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .signup-link a:hover {
+            color: #0056b3;
+        }
+
+        /* for alertify */
+        /* Customize success message color */
+        .ajs-message.ajs-success {
+            background-color: #28a745 !important; /* Green color for success */
+            color: white !important;
+        }
+
+        /* Customize error message color */
+        .ajs-message.ajs-error {
+            background-color: #dc3545 !important; /* Red color for error */
+            color: white !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+
+        <div class="container">
+            <div class="heading">Sign In</div>
+            <div class="close-button">
+                <a href="{% url 'index' %}">&#10005;</a>
+            </div>
+            <form method='POST' action="{% url 'log_in' %}" class="form">
+                {% csrf_token %}
+                
+                <input required="" class="input" type="text" name="username" id="username" placeholder="Username">
+                <input required="" class="input" type="password" name="password" id="password" placeholder="Password">
+            
+
+                <!-- remember me  check box -->
+                <div>
+                    <input type="checkbox" name="remember_me" >
+                    <label>Remember Me</label>
+                </div>
+
+
+
+
+                <span class="forgot-password"><a href="{% url 'password_reset' %}">Forgot Password ?</a></span>
+                <input class="login-button" type="submit" value="Sign In">
+            </form>
+
+
+
+            <!-- Sign Up link -->
+            <div class="signup-link">
+                Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>  
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            // Set the position of the notifier
+            alertify.set('notifier', 'position', 'bottom-center');
+            
+            // Check the message type and display accordingly
+     
+                alertify.error("{{message}}");  // Show error messages in red
+  
+                alertify.success("{{message}}"); // Show success messages in green
+ 
+        </script>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+    <style>
+         .signin-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 12px;
+    }
+
+    .signin-link a {
+        color: #0099ff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.2s ease-in-out;
+    }
+
+    .signin-link a:hover {
+        color: #0056b3;
+    }
+
+      /* Customize success message color */
+      .ajs-message.ajs-success {
+            background-color: #28a745 !important; /* Green color for success */
+            color: white !important;
+        }
+
+        /* Customize error message color */
+        .ajs-message.ajs-error {
+            background-color: #dc3545 !important; /* Red color for error */
+            color: white !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+
+
+    <div class="container">
+        <div class="heading">Sign Up</div>
+        <div class="close-button">
+        <a href="{% url 'index' %}">&#10005;</a>
+    </div>
+    <form method="post" action="{% url 'register' %}" class="form">
+        {% csrf_token %}
+        <input required="" class="input" type="text" name="username" id="username" placeholder="Username">
+        <input required="" class="input" type="text" name="first_name" id="firstname" placeholder="First Name">
+        <input required="" class="input" type="text" name="last_name" id="lastname" placeholder="Last Name">
+        <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">
+        <input required="" class="input" type="password" name="password" id="password" placeholder="Password">
+        <input required="" class="input" type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
+        <span class="forgot-password"><a href="#">Forgot Password ?</a></span>
+        <input class="login-button" type="submit" value="Sign Up">
+    </form>
+
+    <a href="{% url 'social:begin' 'google-oauth2' %}"> <button>goolge</button></a>
+
+
+      <div class="signin-link">
+        Already registered? <a href="{% url 'log_in' %}">Sign In</a>
+    </div>
+
+      <span class="agreement"><a href="#">Learn user licence agreement</a></span>
+  </div>
+    </div>
+
+  </div>
+  {% if messages %}
+      {% for message in messages %}
+          <script>
+              // Set the position of the notifier
+              alertify.set('notifier', 'position', 'bottom-center');
+              
+              // Check the message type and display accordingly
+            
+                  alertify.error("{{message}}");  // Show error messages in red
+            
+          </script>
+      {% endfor %}
+  {% endif %}
+  
+
+</body>
+</html>

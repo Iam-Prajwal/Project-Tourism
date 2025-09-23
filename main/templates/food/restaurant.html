@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container my-5">
+  <!-- Food Title -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-primary">{{ food.name }}</h1>
+  </div>
+
+  <!-- Restaurant List -->
+  <div class="card shadow-lg p-4 rounded-4 border-0">
+    <div class="card-body">
+      <h3 class="mb-4 text-secondary text-center">
+        🍽 Available at These Restaurants:
+      </h3>
+
+      {% if data %} {% for restaurant in data %}
+      <div class="card mb-4 border-0 shadow-sm p-3">
+        <h4 class="card-title">{{ restaurant.name }}</h4>
+
+        {% if restaurant.address %}
+        <p><strong>📍 Address:</strong> {{ restaurant.address }}</p>
+        {% endif %} {% if restaurant.contact %}
+        <p><strong>📞 Contact:</strong> {{ restaurant.contact }}</p>
+        {% endif %} {% if restaurant.maps_link %}
+        <p>
+          <a
+            href="{{ restaurant.maps_link }}"
+            class="btn btn-outline-success btn-sm"
+            target="_blank"
+            >🌍 View on Google Maps</a
+          >
+        </p>
+        {% endif %}
+      </div>
+      {% endfor %} {% else %}
+      <p class="text-muted text-center">
+        This food is not yet listed in any restaurants.
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

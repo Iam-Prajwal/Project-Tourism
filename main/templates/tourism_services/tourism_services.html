@@ -1,0 +1,348 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<style>
+  .image-placeholder img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .main-image {
+    height: 530px;
+    object-fit: cover;
+  }
+
+  .side-image {
+    height: 256px;
+    object-fit: cover;
+  }
+
+  .back-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .back-link:hover {
+    color: #b02a37;
+    text-decoration: none;
+  }
+
+  .location-text {
+    color: #6c757d;
+    font-size: 0.95rem;
+  }
+
+  .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+  }
+
+  .btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  .site-detail-container {
+    padding: 20px 0;
+  }
+
+  .site-card {
+    background: rgba(255, 255, 255, 0.95);
+    /* backdrop-filter: blur(10px); */
+    border-radius: 2px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 60px;
+    margin: 10px auto;
+    max-width: 1200px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .site-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .tab-navigation {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    background: rgba(52, 73, 94, 0.05);
+    border-radius: 5px;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 3px;
+    font-weight: 600;
+    color: #5e4334;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .tab-btn:hover {
+    background: rgba(52, 73, 94, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .tab-btn.active {
+    background: #a83c32;
+    color: white;
+    box-shadow: 0 8px 16px rgba(234, 150, 102, 0.3);
+  }
+
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+    padding: 30px;
+    border-left: 5px solid #ea9066;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+  }
+
+  .tab-content.active-tab {
+    display: block;
+  }
+
+  .tab-content h3 {
+    color: #50302c;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+
+  .tab-content p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    text-align: justify;
+  }
+
+  .tab-icon {
+    font-size: 1.5rem;
+    color: #e7c8a2;
+    margin-right: 10px;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .site-card {
+      padding: 20px;
+    }
+
+    .site-title {
+      font-size: 2rem;
+    }
+
+    .tab-btn {
+      width: 100%;
+      text-align: center;
+      margin: 4px 0;
+    }
+
+    .tab-content {
+      padding: 20px;
+    }
+
+    .tab-content h3 {
+      font-size: 1.4rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+</style>
+
+<div class="site-detail-container">
+  <div class="container">
+    <div class="site-card">
+      <h1 class="site-title">Tourism Services</h1>
+      <div class="tab-navigation">
+        <button
+          class="tab-links tab-btn active"
+          onclick="openLink('transportation')"
+        >
+          Transportation
+        </button>
+        <button class="tab-links tab-btn" onclick="openLink('accomodation')">
+          Accomodation
+        </button>
+        <button class="tab-links tab-btn" onclick="openLink('tourguides')">
+          Tour Guides
+        </button>
+      </div>
+
+      <div id="transportation" class="tab-content active-tab">
+        <h3>
+          <span>Transportation</span>
+        </h3>
+        {% for transport in transportation %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img
+              src="{{ transport.photo.url }}"
+              class="card-img-top"
+              alt="{{ transport.name }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ transport.name }}</h5>
+              <p class="card-text">{{ transport.description }}</p>
+              <p class="card-text">{{ transport.phone }}</p>
+              <a
+                href="{{ transport.link }}"
+                target="_blank"
+                style="text-decoration: none"
+              >
+                Visit Website
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div id="accomodation" class="tab-content">
+        <h3>
+          <span>Accomodation</span>
+        </h3>
+        {% for a in accomodation %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img
+              src="{{ a.photo.url }}"
+              class="card-img-top"
+              alt="{{ a.name }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ a.name }}</h5>
+              <p class="card-text">{{ a.description }}</p>
+              <p class="card-text">{{ a.phone }}</p>
+              <a
+                href="{{ a.link }}"
+                target="_blank"
+                style="text-decoration: none"
+              >
+                Visit Website
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div id="tourguides" class="tab-content">
+        <h3>
+          <span>Tour Guides</span>
+        </h3>
+        {% for tourguide in tourguides %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img
+              src="{{ tourguide.photo.url }}"
+              class="card-img-top"
+              alt="{{ tourguide.name }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ tourguide.name }}</h5>
+              <p class="card-text">{{ tourguide.description }}</p>
+              <p class="card-text">{{ tourguide.phone }}</p>
+              <a
+                href="{{ tourguide.link }}"
+                target="_blank"
+                style="text-decoration: none"
+              >
+                Visit Website
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-detail-container">
+  <div class="container">
+    <div class="site-card">
+      <h1 class="site-title">Guidance Tips</h1>
+      <div class="row">
+        <div class="col-4">
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-certificate"></i> Best Things to Do
+              </h5>
+              <p class="card-text">
+                Exploring Bhaktapur Durbar Square, visiting the Nyatapola
+                Temple, and experiencing Pottery Square.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-calendar-days"></i> Best Time to Visit
+              </h5>
+              <p class="card-text">
+                Spring (March to May) and autumn (September to November) months.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-money-bill-wave"></i> Tour Costs
+              </h5>
+              <p class="card-text">
+                Around NPR 6,000–8,000 (USD 45–60) for a day.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let tabcontents = document.getElementsByClassName("tab-content");
+  let tablinks = document.getElementsByClassName("tab-links");
+  function openLink(arg) {
+    for (let tabcontent of tabcontents) {
+      tabcontent.classList.remove("active-tab");
+    }
+    for (let tablink of tablinks) {
+      tablink.classList.remove("active");
+    }
+    document.getElementById(arg).classList.add("active-tab");
+    event.currentTarget.classList.add("active");
+  }
+</script>
+{% endblock content %}

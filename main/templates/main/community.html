@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}
+  <title>Community</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-8">
+
+  <h2>SHARE YOUR EXPRIENCE</h2>
+ <form method="POST" enctype="multipart/form-data"  action="{% url 'community' %}">
+  {% csrf_token %}
+  <input type="text" name="title" class="form-control" placeholder="Title"><br>
+  <textarea name="content" class="form-control" placeholder="Your experience"></textarea><br>
+  <input type="date" name="visit_date" class="form-control"><br>
+  <input type="text" name="location" id="location" class="form-control" placeholder="Click on map to select"><br>
+  <input type="file" name="images" class="form-control"><br>
+  <select name="status" class="form-control">
+    <option value="draft">Draft</option>
+    <option value="publish">Publish</option>
+  </select><br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+  
+  </div>
+  <div class="col-2"></div>
+</div>
+
+<!-- ______contents starts -->
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-8">
+    
+    <!-- ---------------- EXPERIENCE SHARING -------------------- -->
+    <hr class="my-5">
+    <h3 class="mb-4">Shared Experiences</h3>
+
+    {% for experience in experiences %}
+    <div class="card mb-4 shadow-sm p-3" style="border-radius: 1rem;">
+      <div class="d-flex justify-content-between">
+        <div>
+          <strong>{{ experience.author.username }}</strong>
+          <small class="text-muted"> • {{ experience.created_at|naturaltime }}</small>
+        </div>
+        {% if experience.verified %}
+          <span class="badge bg-success">Verified</span>
+        {% endif %}
+      </div>
+
+      <h5 class="mt-2">{{ experience.title }}</h5>
+      <p>{{ experience.content|linebreaks }}</p>
+
+      {% if experience.images %}
+      <div class="my-2 text-center">
+        {% if ".mp4" in experience.images.url %}
+          <video controls 
+                 style="max-width: 100%; max-height: 300px; width: auto; height: auto; border-radius: 10px;">
+            <source src="{{ experience.images.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% else %}
+          <img src="{{ experience.images.url }}" 
+               class="img-fluid rounded"
+               alt="Uploaded media" 
+               style="max-width: 100%; max-height: 300px; object-fit: contain;">
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if experience.source %}
+        <p class="mb-1"><strong>Source:</strong> 
+          <a href="{{ experience.source }}" target="_blank">{{ experience.source }}</a>
+        </p>
+      {% endif %}
+    </div>
+    {% empty %}
+      <p class="text-muted">No experiences shared yet. Be the first to share yours!</p>
+    {% endfor %}
+
+  </div>
+  <div class="col-2"></div>
+</div>
+<!-- ______contents ends -->
+
+{% endblock content %}

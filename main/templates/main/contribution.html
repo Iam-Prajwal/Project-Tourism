@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% load static %}
+
+{% block title %}
+  <title>Contribution</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="row mt-4">
+  <div class="col-2"></div>
+  <div class="col-8">
+
+    <h2>Contribute to Heritage Hub</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'contribution' %}">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea name="content" class="form-control" rows="5" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Associated Heritage Site</label>
+        <select name="associated_site" class="form-control" required>
+          <option value="">-- Select a site --</option>
+          {% for site in sites %}
+            <option value="{{ site.id }}">{{ site.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Upload Media (Image/Video)</label>
+        <input type="file" name="media" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Source URL (optional)</label>
+        <input type="url" name="source" class="form-control">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit Contribution</button>
+    </form>
+
+  </div>
+  <div class="col-2"></div>
+</div>
+
+<!-- contents/ feeds starts  -->
+<div class="row">
+<div class="col-2"> </div>
+
+<div class="col-8">
+<hr class="my-5">
+<h3 class="mb-4">Community Contributions</h3>
+
+{% for post in contributions %}
+<div class="card mb-4 shadow-sm p-3" style="border-radius: 1rem;">
+  <div class="d-flex justify-content-between">
+    <div>
+      <strong>{{ post.contributor.username }}</strong>
+      <small class="text-muted"> • {{ post.created_at|naturaltime }}</small>
+    </div>
+    {% if post.verified %}
+      <span class="badge bg-success">Verified</span>
+    {% endif %}
+  </div>
+
+  <h5 class="mt-2">{{ post.title }}</h5>
+  <p>{{ post.content|linebreaks }}</p>
+
+  {% if post.media %}
+      <div class="my-2 text-center">
+      {% if ".mp4" in post.media.url %}
+        <video controls style="max-width: 100%; max-height: 300px; width: auto; height: auto; border-radius: 10px;">
+          <source src="{{ post.media.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {% else %}
+        <img src="{{ post.media.url }}" class="img-fluid rounded" alt="Uploaded media" style="max-width: 100%; max-height: 300px; object-fit: contain;">
+      {% endif %}
+    </div>
+
+  {% endif %}
+
+  <p class="text-muted mb-1">Associated Site: {{ post.associated_site.name }}</p>
+
+  {% if post.source %}
+    <p class="mb-1"><strong>Source:</strong> <a href="{{ post.source }}" target="_blank">{{ post.source }}</a></p>
+  {% endif %}
+</div>
+{% empty %}
+  <p class="text-muted">No contributions yet. Be the first to share!</p>
+{% endfor %}
+</div>
+<div class="col-2"></div>
+</div>
+
+<!-- contents/ feeds ends -->
+{% endblock content %}

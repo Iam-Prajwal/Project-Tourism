@@ -1,0 +1,57 @@
+
+{% extends "base.html" %} {% load static %} {% block content %}
+<style>
+  .buy-container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #fff5ec;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .buy-title {
+    font-size: 2rem;
+    color: #a83c32;
+    margin-bottom: 10px;
+  }
+
+  .buy-desc {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+
+  .buy-button {
+    background: #a83c32;
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .buy-button:hover {
+    background: #913027;
+  }
+</style>
+
+<div class="buy-container">
+  <h1 class="buy-title">{{ food.name }}</h1>
+  <p class="buy-desc">
+    This item is available online. Click the button below to buy now:
+  </p>
+  {% for item in data %} {% if item.product_url %}
+  <a href="{{ item.product_url }}" class="buy-button" target="_blank"
+    >🛒 Buy Now on link {{ forloop.counter }}</a
+  >
+
+  {% else %}
+  <p style="color: #999">Product link not available.</p>
+  {% endif %}
+</div>
+{% endfor %} {% endblock content %}

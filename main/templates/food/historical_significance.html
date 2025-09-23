@@ -1,0 +1,279 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc6 100%);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px 0;
+  }
+
+  .header h1 {
+    font-size: 3rem;
+    color: #a83c32;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header p {
+    font-size: 1.2rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: 20px;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+
+  .bento-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+  }
+
+  .bento-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  }
+
+  .bento-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #a83c32, #d4746a);
+    border-radius: 20px 20px 0 0;
+  }
+
+  /* Responsive card sizes based on content */
+  .large {
+    grid-row: span 2;
+  }
+
+  .wide {
+    grid-column: span 2;
+  }
+
+  .extra-large {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+
+  /* Auto-adjust for long content */
+  .auto-height {
+    grid-row: auto;
+  }
+
+  .card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+  }
+
+  .card-content {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.7;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .card-content p {
+    margin-bottom: 15px;
+  }
+
+  .card-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-content ul {
+    margin: 15px 0;
+    padding-left: 20px;
+    flex-grow: 1;
+  }
+
+  .card-content li {
+    margin-bottom: 8px;
+  }
+
+  .highlight {
+    background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  /* Special styling for cultural impact card */
+  .cultural-impact {
+    background: linear-gradient(135deg, #efc8b9 0%, #ab542962 100%);
+    color: rgb(0, 0, 0);
+  }
+
+  .cultural-impact .card-title {
+    color: rgb(0, 0, 0);
+  }
+
+  .cultural-impact .card-content {
+    color: rgba(0, 0, 0, 0.9);
+  }
+
+  /* Ensure text doesn't overflow */
+  .card-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Dynamic height adjustment based on content length */
+  .short-content {
+    min-height: 200px;
+  }
+
+  .medium-content {
+    min-height: 300px;
+  }
+
+  .long-content {
+    min-height: 400px;
+    grid-row: span 2;
+  }
+
+  .extra-long-content {
+    min-height: 500px;
+    grid-row: span 3;
+  }
+
+  @media (max-width: 1200px) {
+    .bento-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .wide,
+    .extra-large {
+      grid-column: span 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .wide,
+    .extra-large,
+    .large {
+      grid-column: span 1;
+      grid-row: auto;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+    }
+
+    .header p {
+      font-size: 1rem;
+      padding: 0 20px;
+    }
+
+    .bento-card {
+      padding: 20px;
+      min-height: 150px;
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+    }
+
+    .card-content {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bento-grid {
+      padding: 0 10px;
+    }
+
+    .header {
+      padding: 15px 0;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+    }
+
+    .bento-card {
+      padding: 20px 15px;
+    }
+  }
+</style>
+<div class="header">
+  <h1>{{data.name}}</h1>
+  <p>Discover the rich history and cultural significance of {{data.name}}</p>
+</div>
+
+<div class="bento-grid">
+  <!-- Origin Story - Large Card -->
+  <div class="bento-card cultural-impact">
+    <span class="card-icon">🏛️</span>
+    <h2 class="card-title">Ancient History</h2>
+    <div class="card-content">
+      <p>{{ data.history }}</p>
+    </div>
+  </div>
+
+  <!-- Cultural Significance -->
+  <div class="bento-card cultural-impact">
+    <span class="card-icon">🎭</span>
+    <h2 class="card-title">Cultural Heritage</h2>
+    <div class="card-content">
+      <p>{{data.cultural_significance}}</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

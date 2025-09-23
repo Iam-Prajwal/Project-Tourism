@@ -1,0 +1,476 @@
+<!-- food/listoffood.html -->
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block content %}
+<style>
+  /* Scope all styles to the food container to prevent affecting navbar */
+  .food-container {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f1e8;
+    margin: 0;
+    padding: 20px 0;
+    min-height: 100vh;
+  }
+
+  .food-container .recipe-section {
+    background-color: #f5f1e8;
+    padding: 40px 0;
+    overflow: visible;
+  }
+
+  .food-container .container {
+    overflow: visible;
+  }
+
+  .food-container .row {
+    overflow: visible;
+  }
+
+  .food-container .col-lg-4,
+  .food-container .col-md-6 {
+    overflow: visible;
+  }
+
+  .food-container .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2c2c2c;
+    margin-bottom: 1rem;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .food-container .section-subtitle {
+    text-align: center;
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .food-container .recipe-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden; /* Changed from visible to hidden for image */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    margin-bottom: 30px;
+  }
+
+  .food-container .recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .food-container .recipe-image {
+    height: 200px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+  }
+
+  /* Image styling */
+  .food-container .recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .food-container .recipe-card:hover .recipe-image img {
+    transform: scale(1.05);
+  }
+
+  /* Fallback when no image */
+  .food-container .recipe-image.no-image::before {
+    content: "🍽️";
+    font-size: 3rem;
+    color: #adb5bd;
+  }
+
+  .food-container .category-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #a83c32;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 10;
+  }
+
+  .food-container .recipe-content {
+    padding: 25px;
+    position: relative;
+  }
+
+  /* Fixed: Title and dropdown container */
+  .food-container .recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .food-container .recipe-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin: 0;
+    flex: 1;
+    padding-right: 15px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.3;
+  }
+
+  /* Fixed: Dropdown positioning */
+  .food-container .dots-menu-container {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1000;
+  }
+
+  .food-container .dropdown {
+    position: relative;
+  }
+
+  .food-container .recipe-description {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .food-container .recipe-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  /* Fixed Dropdown styles */
+  .food-container .dots-menu {
+    background: none;
+    border: none;
+    color: #a83c32;
+    font-size: 1.5rem;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+
+  .food-container .dots-menu:hover {
+    background-color: #f5ede8;
+    color: #a83c32;
+    transform: scale(1.1);
+  }
+
+  .food-container .dots-menu:focus {
+    box-shadow: 0 0 0 3px rgba(168, 60, 50, 0.2);
+    background-color: #f5ede8;
+    outline: none;
+  }
+
+  .food-container .dropdown-toggle::after {
+    display: none;
+  }
+
+  /* Fixed dropdown menu positioning and z-index */
+  .food-container .custom-dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid #a83c32;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(94, 47, 27, 0.2);
+    padding: 8px 0;
+    min-width: 240px;
+    z-index: 1050;
+    position: absolute;
+    right: 0;
+    left: auto;
+    top: 100%;
+    margin-top: 5px;
+    transform: none;
+    /* Remove custom visibility styles - let Bootstrap handle it */
+  }
+
+  /* Override Bootstrap's default dropdown positioning */
+  .food-container .dropdown-menu[data-bs-popper] {
+    right: 0;
+    left: auto;
+  }
+
+  .food-container .custom-dropdown-item {
+    padding: 12px 20px;
+    color: #a83c32;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 0.95rem;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .food-container .custom-dropdown-item:hover {
+    background-color: #f5ede8;
+    color: #a83c32;
+    text-decoration: none;
+    transform: translateX(5px);
+  }
+
+  .food-container .custom-dropdown-item:focus {
+    background-color: #f5ede8;
+    color: #a83c32;
+    outline: none;
+  }
+
+  .food-container .custom-dropdown-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .food-container .dropdown-divider {
+    border-top: 1px solid #e9ecef;
+    margin: 8px 0;
+  }
+
+  /* Ensure dropdown appears above other content and prevent overflow issues */
+  .food-container .dropdown-menu.show {
+    display: block;
+  }
+
+  /* Prevent card overflow issues */
+  .food-container .col-lg-4,
+  .food-container .col-md-6 {
+    position: relative;
+    z-index: 1;
+  }
+
+  .food-container .col-lg-4:hover,
+  .food-container .col-md-6:hover {
+    z-index: 10;
+  }
+
+  @media (max-width: 768px) {
+    .food-container .recipe-content {
+      padding: 20px;
+    }
+
+    .food-container .recipe-title {
+      font-size: 1.3rem;
+    }
+
+    .food-container .recipe-image {
+      height: 180px;
+    }
+
+    .food-container .section-title {
+      font-size: 2rem;
+    }
+
+    .food-container .section-subtitle {
+      font-size: 1rem;
+      padding: 0 20px;
+    }
+
+    .food-container .custom-dropdown-menu {
+      min-width: 220px;
+      right: 10px;
+    }
+  }
+
+  /* Loading state for images */
+  .food-container .recipe-image.loading {
+    background: linear-gradient(90deg, #e9ecef 25%, #f8f9fa 50%, #e9ecef 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+</style>
+
+<div class="food-container">
+  <div class="recipe-section">
+    <div class="container">
+      <h1 class="section-title">Traditional Cuisine</h1>
+      <p class="section-subtitle">
+        Explore the rich culinary heritage of Bhaktapur with authentic dishes that
+        have been passed down through generations.
+      </p>
+      <div class="row">
+        <!-- Food Cards Loop -->
+        {% for food_item in data %}
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="recipe-card">
+            <div class="recipe-image {% if not food_item.image %}no-image{% endif %}">
+              {% if food_item.image %}
+                <img src="{{ food_item.image.url }}" alt="{{ food_item.name }}" loading="lazy">
+              {% endif %}
+              <span class="category-tag">Traditional</span>
+            </div>
+            <div class="recipe-content">
+              <!-- Fixed: Title and dropdown in same line -->
+              <div class="recipe-header">
+                <h3 class="recipe-title">{{ food_item.name }}</h3>
+                <div class="dots-menu-container">
+                  <div class="dropdown">
+                    <button
+                      class="btn dropdown-toggle dots-menu"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      data-bs-auto-close="true"
+                      aria-expanded="false"
+                      aria-label="More options for {{ food_item.name }}"
+                    >
+                      ⋮
+                    </button>
+                    <ul
+                      class="dropdown-menu custom-dropdown-menu"
+                    >
+                      <li>
+                        <a
+                          class="dropdown-item custom-dropdown-item"
+                          href="{% url 'historical_significance' food_item.id %}"
+                        >
+                          <i class="fas fa-book"></i> Historical Significance
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item custom-dropdown-item"
+                          href="{% url 'recipe' food_item.id %}"
+                        >
+                          <i class="fas fa-utensils"></i> Recipe & Nutrients
+                        </a>
+                      </li>
+                  
+                      <li>
+                        <a
+                          class="dropdown-item custom-dropdown-item"
+                          href="{% url 'tutorial' food_item.id %}"
+                        >
+                          <i class="fas fa-video"></i> Tutorial Video
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item custom-dropdown-item"
+                          href="{% url 'restaurant' food_item.id %}"
+                        >
+                          <i class="fas fa-store"></i> Find Restaurant
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item custom-dropdown-item"
+                          href="{% url 'online_buying' food_item.id %}"
+                        >
+                          <i class="fas fa-shopping-cart"></i> Order Online
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <p class="recipe-description">{{ food_item.short_description }}</p>
+              <div class="recipe-meta">
+                <!-- You can add additional meta information here like ratings, prep time, etc. -->
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Fixed dropdown functionality - let Bootstrap handle the dropdowns
+document.addEventListener('DOMContentLoaded', function() {
+    // Debug: Check if Bootstrap is loaded
+    if (typeof bootstrap === 'undefined') {
+        console.error('Bootstrap JavaScript is not loaded!');
+        return;
+    }
+    
+    // Handle image loading errors only
+    const images = document.querySelectorAll('.food-container .recipe-image img');
+    images.forEach(img => {
+        img.addEventListener('error', function() {
+            this.style.display = 'none';
+            this.parentElement.classList.add('no-image');
+        });
+        
+        img.addEventListener('load', function() {
+            this.parentElement.classList.remove('loading');
+        });
+    });
+    
+    // Debug: Check if dropdown elements exist
+    const dropdownElements = document.querySelectorAll('.food-container .dropdown-toggle');
+    console.log('Found dropdown elements:', dropdownElements.length);
+    
+    dropdownElements.forEach((element, index) => {
+        console.log(`Dropdown ${index}:`, element);
+        
+        // Add click event for debugging
+        element.addEventListener('click', function(e) {
+            console.log('Dropdown clicked:', this);
+            // Don't prevent default - let Bootstrap handle it
+        });
+    });
+    
+    // Debug Bootstrap dropdown events
+    document.addEventListener('show.bs.dropdown', function (e) {
+        console.log('Dropdown showing:', e.target);
+    });
+    
+    document.addEventListener('shown.bs.dropdown', function (e) {
+        console.log('Dropdown shown:', e.target);
+        if (e.target.closest('.food-container')) {
+            const dropdownMenu = e.target.nextElementSibling;
+            console.log('Dropdown menu:', dropdownMenu);
+        }
+    });
+    
+    document.addEventListener('hide.bs.dropdown', function (e) {
+        console.log('Dropdown hiding:', e.target);
+    });
+    
+    document.addEventListener('hidden.bs.dropdown', function (e) {
+        console.log('Dropdown hidden:', e.target);
+    });
+});
+</script>
+
+{% endblock content %}

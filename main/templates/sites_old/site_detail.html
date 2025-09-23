@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .image-placeholder img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .main-image {
+        height: 530px;
+        object-fit: cover;
+    }
+
+    .side-image {
+        height: 256px;
+        object-fit: cover;
+    }
+
+    .back-link {
+        color: #dc3545;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .back-link:hover {
+        color: #b02a37;
+        text-decoration: none;
+    }
+
+    .location-text {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+
+    .btn-outline-danger {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .site-detail-container {
+        padding: 20px 0;
+    }
+
+    .site-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 2px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 60px;
+        margin: 10px auto;
+        max-width: 1200px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .site-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-navigation {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+        background: rgba(52, 73, 94, 0.05);
+        border-radius: 5px;
+    }
+
+    .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 3px;
+        font-weight: 600;
+        color: #5e4334;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .tab-btn:hover {
+        background: rgba(52, 73, 94, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+        background: #a83c32;
+        color: white;
+        box-shadow: 0 8px 16px rgba(234, 150, 102, 0.3);
+    }
+
+    .tab-content {
+        display: none;
+        animation: fadeIn 0.5s ease-in-out;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 2px;
+        padding: 30px;
+        border-left: 5px solid #ea9066;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+    }
+
+    .tab-content.active-tab {
+        display: block;
+    }
+
+    .tab-content h3 {
+        color: #50302c;
+        font-weight: 600;
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    .tab-content p {
+        color: #555;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        text-align: justify;
+    }
+
+    .tab-icon {
+        font-size: 1.5rem;
+        color: #e7c8a2;
+        margin-right: 10px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .site-card {
+            padding: 20px;
+        }
+
+        .site-title {
+            font-size: 2rem;
+        }
+
+        .tab-btn {
+            width: 100%;
+            text-align: center;
+            margin: 4px 0;
+        }
+
+        .tab-content {
+            padding: 20px;
+        }
+
+        .tab-content h3 {
+            font-size: 1.4rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+    }
+</style>
+<div class="bg-light ">
+    <div class="container-fluid px-4 py-3 ">
+        <div class="row mb-4">
+            <div class="col">
+                <a href="{% url 'sites' %}" class="back-link">
+                    <i class="fas fa-arrow-left me-2"></i>Back to All Sites
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class=" fw-bold mb-2">{{site.name}}</h2>
+                <p class="location-text mb-0">
+                    <i class="fas fa-map-marker-alt me-2"></i>Bhaktapur, Nepal
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <button class="btn btn-outline-danger me-2">
+                    <i class="fas fa-heart me-2"></i>Save
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-lg-8">
+                <div class="image-placeholder main-image w-100">
+                    <image src="{{site.photo1.url}}" alt="Main Image" class="img-fluid">
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row g-3 h-100">
+                    <div class="col-12">
+                        <div class="image-placeholder side-image w-100">
+                            <image src="{{site.photo2.url}}" alt="Main Image" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="image-placeholder side-image w-100 ">
+                            <image src="{{site.photo3.url}}" alt="Main Image" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="mx-5 my-4">{{ site.shortdescription }}</p>
+    </div>
+</div>
+
+<div class="site-detail-container">
+    <div class="container">
+        <div class="site-card">
+            <h1 class="site-title">{{ site.name }}</h1>
+            <div class="tab-navigation">
+                <button class="tab-links tab-btn active" onclick="openLink('details')"><i class="fas fa-info-circle tab-icon"></i>Details</button>
+                <button class="tab-links tab-btn" onclick="openLink('history')"><i class="fas fa-history tab-icon"></i>History</button>
+                <button class="tab-links tab-btn" onclick="openLink('cultural_significance')"><i class="fas fa-star tab-icon"></i>Cultural Significance</button>
+            </div>
+
+            <div id="details" class="tab-content active-tab">
+                <h3>
+                    <span><i class="fas fa-info-circle tab-icon"></i>Site Details</span>
+                </h3>
+                <p>{{ data.description }}</p>
+            </div>
+
+            <div id="history" class="tab-content">
+                <h3>
+                    <span><i class="fas fa-history tab-icon"></i>Historical Background</span>
+                </h3>
+                <p>{{ data.history }}</p>
+            </div>
+
+            <div id="cultural_significance" class="tab-content">
+                <h3>
+                    <span><i class="fas fa-star tab-icon"></i>Cultural Significance</span>
+                </h3>
+                <p>{{ data.cultural_significance }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="site-detail-container">
+    <div class="container">
+        <div class="site-card">
+            <h1 class="site-title">Map</h1>
+        </div>
+    </div>
+</div>
+
+<script>
+let tabcontents = document.getElementsByClassName('tab-content')
+let tablinks = document.getElementsByClassName('tab-links')
+function openLink(arg) {
+    for (let tabcontent of tabcontents) {
+        tabcontent.classList.remove("active-tab")
+    }
+    for (let tablink of tablinks) {
+        tablink.classList.remove("active")
+    }
+    document.getElementById(arg).classList.add("active-tab")
+    event.currentTarget.classList.add("active")
+}
+</script>
+{% endblock content %}
