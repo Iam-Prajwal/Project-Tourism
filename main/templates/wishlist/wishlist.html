@@ -5,38 +5,70 @@
 <style>
     .wishlist-container {
         min-height: 100vh;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #f5ede6 0%, #ece6df 100%);
         padding: 40px 0;
     }
 
     .wishlist-header {
         text-align: center;
         margin-bottom: 50px;
-        color: #2c3e50;
+        color: #6c2e22;
+        position: relative;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        color: #b94a3a;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        padding: 10px 20px;
+        background: #fffaf6;
+        border-radius: 25px;
+        border: 2px solid #e2b07b;
+        box-shadow: 0 2px 8px rgba(185,74,58,0.08);
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .back-link:hover {
+        background: #b94a3a;
+        color: #fff;
+        text-decoration: none;
+        transform: translateY(-50%);
+        box-shadow: 0 2px 8px rgba(185,74,58,0.08);
+    }
+
+    .back-link i {
+        margin-right: 8px;
     }
 
     .wishlist-title {
         font-size: 3rem;
         font-weight: 700;
         margin-bottom: 15px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(108,46,34,0.1);
+        color: #6c2e22;
     }
 
     .wishlist-subtitle {
         font-size: 1.2rem;
-        color: #6c757d;
+        color: #8c7c6b;
         margin-bottom: 10px;
     }
 
     .wishlist-count {
         display: inline-block;
-        background: linear-gradient(45deg, #dc3545, #e74c3c);
+        background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
         color: white;
         padding: 8px 20px;
         border-radius: 25px;
         font-weight: 600;
         font-size: 1.1rem;
-        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        box-shadow: 0 4px 15px rgba(185,74,58,0.25);
     }
 
     .wishlist-grid {
@@ -49,18 +81,20 @@
     }
 
     .wishlist-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(185,74,58,0.08);
         overflow: hidden;
         transition: all 0.3s ease;
         position: relative;
         cursor: pointer;
+        border: 1px solid #ece6df;
     }
 
     .wishlist-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        box-shadow: 0 15px 35px rgba(185,74,58,0.15);
+        border-color: #e2b07b;
     }
 
     .wishlist-image {
@@ -75,20 +109,21 @@
     }
 
     .wishlist-content {
-        padding: 20px;
+        padding: 25px;
         position: relative;
+        background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
     }
 
     .wishlist-site-name {
         font-size: 1.4rem;
         font-weight: 700;
-        color: #2c3e50;
+        color: #6c2e22;
         margin-bottom: 8px;
         line-height: 1.3;
     }
 
     .wishlist-location {
-        color: #6c757d;
+        color: #8c7c6b;
         font-size: 0.95rem;
         margin-bottom: 12px;
         display: flex;
@@ -97,11 +132,11 @@
 
     .wishlist-location i {
         margin-right: 6px;
-        color: #dc3545;
+        color: #b94a3a;
     }
 
     .wishlist-description {
-        color: #555;
+        color: #3d2c22;
         font-size: 0.9rem;
         line-height: 1.5;
         margin-bottom: 15px;
@@ -118,11 +153,11 @@
     }
 
     .btn-view-site {
-        background: linear-gradient(45deg, #007bff, #0056b3);
+        background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
         color: white;
         border: none;
         padding: 8px 16px;
-        border-radius: 8px;
+        border-radius: 10px;
         font-weight: 600;
         text-decoration: none;
         display: inline-flex;
@@ -130,21 +165,23 @@
         gap: 6px;
         transition: all 0.3s ease;
         font-size: 0.9rem;
+        box-shadow: 0 2px 8px rgba(185,74,58,0.15);
     }
 
     .btn-view-site:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        box-shadow: 0 6px 20px rgba(185,74,58,0.25);
         color: white;
         text-decoration: none;
+        background: linear-gradient(135deg, #b45309 0%, #e2b07b 100%);
     }
 
     .btn-remove {
-        background: linear-gradient(45deg, #dc3545, #c82333);
+        background: linear-gradient(135deg, #8c3a2b 0%, #b94a3a 100%);
         color: white;
         border: none;
         padding: 8px 16px;
-        border-radius: 8px;
+        border-radius: 10px;
         font-weight: 600;
         cursor: pointer;
         display: inline-flex;
@@ -152,51 +189,60 @@
         gap: 6px;
         transition: all 0.3s ease;
         font-size: 0.9rem;
+        box-shadow: 0 2px 8px rgba(185,74,58,0.15);
     }
 
     .btn-remove:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+        box-shadow: 0 6px 20px rgba(140,58,43,0.25);
+        background: linear-gradient(135deg, #6c2e22 0%, #8c3a2b 100%);
     }
 
     .wishlist-date {
         position: absolute;
         top: 15px;
         right: 15px;
-        background: rgba(0,0,0,0.7);
+        background: rgba(108,46,34,0.8);
         color: white;
         padding: 4px 8px;
         border-radius: 12px;
         font-size: 0.75rem;
         font-weight: 600;
+        backdrop-filter: blur(4px);
     }
 
     .empty-wishlist {
         text-align: center;
         padding: 80px 20px;
-        color: #6c757d;
+        color: #8c7c6b;
+        background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(185,74,58,0.08);
+        border: 2px dashed #ece6df;
+        margin: 0 20px;
     }
 
     .empty-wishlist i {
         font-size: 4rem;
         margin-bottom: 20px;
-        color: #dee2e6;
+        color: #e2b07b;
     }
 
     .empty-wishlist h3 {
         font-size: 1.8rem;
         font-weight: 600;
         margin-bottom: 15px;
-        color: #495057;
+        color: #6c2e22;
     }
 
     .empty-wishlist p {
         font-size: 1.1rem;
         margin-bottom: 25px;
+        color: #8c7c6b;
     }
 
     .btn-browse-sites {
-        background: linear-gradient(45deg, #28a745, #20c997);
+        background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
         color: white;
         padding: 12px 30px;
         border-radius: 25px;
@@ -206,30 +252,15 @@
         align-items: center;
         gap: 8px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        box-shadow: 0 4px 15px rgba(185,74,58,0.25);
     }
 
     .btn-browse-sites:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        box-shadow: 0 8px 25px rgba(185,74,58,0.35);
         color: white;
         text-decoration: none;
-    }
-
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        color: #dc3545;
-        text-decoration: none;
-        font-weight: 600;
-        margin-bottom: 30px;
-        transition: all 0.3s ease;
-    }
-
-    .back-link:hover {
-        color: #b02a37;
-        text-decoration: none;
-        transform: translateX(-5px);
+        background: linear-gradient(135deg, #b45309 0%, #e2b07b 100%);
     }
 
     .back-link i {
@@ -242,18 +273,19 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,250,246,0.9);
         display: none;
         justify-content: center;
         align-items: center;
-        border-radius: 15px;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
     }
 
     .loading-spinner {
         width: 40px;
         height: 40px;
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #dc3545;
+        border: 4px solid #ece6df;
+        border-top: 4px solid #b94a3a;
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }
@@ -285,6 +317,11 @@
         z-index: 1050;
         max-width: 350px;
         animation: slideInRight 0.5s ease;
+        background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
+        border: 1px solid #e2b07b;
+        border-radius: 12px;
+        color: #6c2e22;
+        box-shadow: 0 4px 15px rgba(185,74,58,0.15);
     }
 
     @keyframes slideInRight {
@@ -296,6 +333,37 @@
             transform: translateX(0);
             opacity: 1;
         }
+    }
+
+    /* Enhanced card interaction feedback */
+    .wishlist-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="%23e2b07b" fill-opacity="0.03"><circle cx="3" cy="3" r="1"/><circle cx="13" cy="13" r="1"/></g></svg>');
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .wishlist-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Success/Error alert styling */
+    .alert-success {
+        background: linear-gradient(135deg, #ece6df 0%, #f3c892 100%);
+        border-color: #e2b07b;
+        color: #6c2e22;
+    }
+
+    .alert-error {
+        background: linear-gradient(135deg, #f3c892 0%, #ece6df 100%);
+        border-color: #b94a3a;
+        color: #8c3a2b;
     }
 
     @media (max-width: 768px) {
@@ -317,18 +385,32 @@
             width: 100%;
             justify-content: center;
         }
+
+        .empty-wishlist {
+            padding: 60px 15px;
+            margin: 0 15px;
+        }
+
+        .back-link {
+            padding: 8px 16px;
+            font-size: 0.95rem;
+        }
+
+        .wishlist-content {
+            padding: 20px;
+        }
     }
 </style>
 
 <div class="wishlist-container">
     <div class="container">
-        <!-- Back Link -->
-        <a href="{% url 'sites' %}" class="back-link">
-            <i class="fas fa-arrow-left"></i>Back to All Sites
-        </a>
-
-        <!-- Wishlist Header -->
+        <!-- Wishlist Header with Back Button -->
         <div class="wishlist-header">
+            <!-- Back Link -->
+            <a href="{% url 'sites' %}" class="back-link">
+                <i class="fas fa-arrow-left"></i>Back to All Sites
+            </a>
+            
             <h1 class="wishlist-title">
                 My Wishlist
             </h1>

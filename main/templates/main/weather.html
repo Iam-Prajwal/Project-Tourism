@@ -4,58 +4,87 @@
 {% load static %}
 
 {% block content %}
-<!-- Remove duplicate Bootstrap and Font Awesome links to prevent conflicts -->
-<!-- Only load Inter font since base.html already has Bootstrap and Font Awesome -->
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Scope all styles to the weather container - NO global styles */
     .weather-container {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(135deg, #f5f3e9 0%, #a83c32 100%);
+        background: linear-gradient(135deg, #f5ede6 0%, #ece6df 100%);
         min-height: 100vh;
-        padding: 2rem 0;
+        padding: 40px 0 40px 0;
         margin: 0;
-        /* Ensure no margin/padding affects navbar */
         position: relative;
-        z-index: 1; /* Lower than navbar z-index */
+        z-index: 1;
     }
-    
+
     .weather-container .main-container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 1rem;
     }
-    
+
     .weather-container .page-header {
         text-align: center;
-        margin-top: 3rem;
         margin-bottom: 3rem;
-        color: white;
+        color: #6c2e22;
     }
-    
+
     .weather-container .page-title {
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(108,46,34,0.1);
+        position: relative;
+        padding-bottom: 20px;
     }
-    
+
+    .weather-container .page-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(135deg, #b94a3a 0%, #e2b07b 100%);
+        border-radius: 2px;
+    }
+
     .weather-container .page-subtitle {
         font-size: 1.1rem;
-        opacity: 0.9;
-        font-weight: 300;
+        color: #8c7c6b;
+        font-weight: 500;
     }
-    
+
     .weather-container .search-section {
-        background: rgba(255, 255, 255, 0.95);
+        background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
         backdrop-filter: blur(10px);
-        border-radius: 20px;
+        border-radius: 25px;
         padding: 2rem;
         margin-bottom: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        position: relative; 
-        z-index: 10;         
+        box-shadow: 0 8px 30px rgba(185,74,58,0.08);
+        border: 1px solid #ece6df;
+        position: relative;
+        overflow: visible; /* Ensure dropdown is not clipped */
+        z-index: 20; /* Above weather-card */
+    }
+
+    .weather-container .search-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="%23e2b07b" fill-opacity="0.03"><circle cx="3" cy="3" r="1"/><circle cx="13" cy="13" r="1"/></g></svg>');
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .weather-container .search-section > * {
+        position: relative;
+        z-index: 2;
     }
 
     .weather-container .search-form {
@@ -63,13 +92,14 @@
         max-width: 500px;
         margin: 0 auto;
     }
-    
+
     .weather-container .search-input-group {
         position: relative;
+        z-index: 30; /* Higher than search-section */
     }
-    
+
     .weather-container .search-input {
-        border: 2px solid #e9ecef;
+        border: 2px solid #e2b07b;
         border-radius: 15px;
         padding: 1rem 1.5rem;
         font-size: 1.1rem;
@@ -78,20 +108,21 @@
         transition: all 0.3s ease;
         background: #fff;
         box-sizing: border-box;
+        color: #3d2c22;
     }
-    
+
     .weather-container .search-input:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        border-color: #b94a3a;
+        box-shadow: 0 0 0 0.2rem rgba(185,74,58,0.25);
         outline: none;
     }
-    
+
     .weather-container .search-btn {
         position: absolute;
         right: 8px;
         top: 50%;
         transform: translateY(-50%);
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
         border: none;
         border-radius: 12px;
         padding: 0.75rem 1.5rem;
@@ -100,34 +131,88 @@
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         transition: all 0.3s ease;
         cursor: pointer;
+        box-shadow: 0 4px 15px rgba(185,74,58,0.15);
     }
-    
+
     .weather-container .search-btn:hover {
+        background: linear-gradient(135deg, #b45309 0%, #e2b07b 100%);
         transform: translateY(-50%) translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 6px 20px rgba(185,74,58,0.25);
     }
-    
+
+    .weather-container .autocomplete-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 2px solid #e2b07b;
+        border-radius: 12px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 40; /* Highest so it appears above everything */
+        box-shadow: 0 8px 25px rgba(185,74,58,0.15);
+        margin-top: 4px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .weather-container .autocomplete-dropdown div {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid #ece6df;
+        color: #3d2c22;
+    }
+
+    .weather-container .autocomplete-dropdown div:last-child {
+        border-bottom: none;
+    }
+
+    .weather-container .autocomplete-dropdown div:hover {
+        background: linear-gradient(135deg, #f5ede6 0%, #ece6df 100%);
+        color: #6c2e22;
+    }
+
     .weather-container .weather-card {
-        background: rgba(255, 255, 255, 0.95);
+        background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
         backdrop-filter: blur(10px);
-        border-radius: 24px;
+        border-radius: 25px;
         padding: 2.5rem;
         margin-bottom: 2rem;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 30px rgba(185,74,58,0.08);
+        border: 1px solid #ece6df;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        z-index: 10; /* Lower than search-section and dropdown */
     }
-    
+
+    .weather-container .weather-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="%23e2b07b" fill-opacity="0.03"><circle cx="3" cy="3" r="1"/><circle cx="13" cy="13" r="1"/></g></svg>');
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .weather-container .weather-card > * {
+        position: relative;
+        z-index: 2;
+    }
+
     .weather-container .weather-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 12px 35px rgba(185,74,58,0.15);
     }
-    
+
     .weather-container .current-weather {
         text-align: center;
         margin-bottom: 2rem;
     }
-    
+
     .weather-container .location-info {
         display: flex;
         align-items: center;
@@ -135,14 +220,18 @@
         gap: 0.5rem;
         margin-bottom: 1.5rem;
     }
-    
+
     .weather-container .location-name {
         font-size: 1.8rem;
         font-weight: 600;
-        color: #2c3e50;
+        color: #6c2e22;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
+    .weather-container .location-info i {
+        color: #b94a3a !important;
+    }
+
     .weather-container .weather-main {
         display: flex;
         align-items: center;
@@ -150,208 +239,214 @@
         gap: 2rem;
         margin-bottom: 2rem;
     }
-    
+
     .weather-container .weather-icon-large {
         width: 100px;
         height: 100px;
-        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        filter: drop-shadow(0 4px 8px rgba(185,74,58,0.1));
     }
-    
+
     .weather-container .temperature-display {
         text-align: center;
     }
-    
+
     .weather-container .temperature-main {
         font-size: 4rem;
         font-weight: 700;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        background: linear-gradient(135deg, #b94a3a 0%, #e2b07b 100%);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         line-height: 1;
         margin-bottom: 0.5rem;
     }
-    
+
     .weather-container .weather-description {
         font-size: 1.3rem;
-        color: #6c757d;
+        color: #8c7c6b;
         text-transform: capitalize;
         font-weight: 500;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .weather-details {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 1rem;
         margin-top: 2rem;
     }
-    
+
     .weather-container .detail-card {
-        background: linear-gradient(135deg, #f8f9ff, #f1f3ff);
+        background: linear-gradient(135deg, #f5ede6 0%, #ece6df 100%);
         border-radius: 16px;
         padding: 1.5rem;
         text-align: center;
-        border: 1px solid rgba(102, 126, 234, 0.1);
+        border: 2px solid #e2b07b;
         transition: all 0.3s ease;
     }
-    
+
     .weather-container .detail-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        box-shadow: 0 6px 20px rgba(185,74,58,0.1);
+        border-color: #b94a3a;
     }
-    
+
     .weather-container .detail-icon {
         font-size: 1.5rem;
-        color: #667eea;
+        color: #b94a3a;
         margin-bottom: 0.5rem;
     }
-    
+
     .weather-container .detail-label {
         font-size: 0.9rem;
-        color: #6c757d;
+        color: #8c7c6b;
         margin-bottom: 0.3rem;
         font-weight: 500;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .detail-value {
         font-size: 1.2rem;
         font-weight: 600;
-        color: #2c3e50;
+        color: #6c2e22;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .forecast-section {
         margin-top: 2rem;
     }
-    
+
     .weather-container .section-title {
         font-size: 1.5rem;
         font-weight: 600;
-        color: #2c3e50;
+        color: #6c2e22;
         margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
+    .weather-container .section-title i {
+        color: #e2b07b;
+    }
+
     .weather-container .forecast-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1rem;
     }
-    
+
     .weather-container .forecast-card {
-        background: rgba(255, 255, 255, 0.9);
+        background: linear-gradient(135deg, #f5ede6 0%, #ece6df 100%);
         border-radius: 16px;
         padding: 1.5rem;
         text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 2px solid #e2b07b;
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
-    
+
+    .weather-container .forecast-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #b94a3a, #e2b07b);
+        border-radius: 16px 16px 0 0;
+    }
+
     .weather-container .forecast-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 25px rgba(185,74,58,0.1);
+        border-color: #b94a3a;
     }
-    
+
     .weather-container .forecast-date {
         font-size: 0.95rem;
         font-weight: 600;
-        color: #495057;
+        color: #6c2e22;
         margin-bottom: 1rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .forecast-icon {
         width: 50px;
         height: 50px;
         margin-bottom: 0.5rem;
+        filter: drop-shadow(0 2px 4px rgba(185,74,58,0.1));
     }
-    
+
     .weather-container .forecast-temp {
         font-size: 1.4rem;
         font-weight: 600;
-        color: #667eea;
+        color: #b94a3a;
         margin-bottom: 0.5rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .forecast-desc {
         font-size: 0.9rem;
-        color: #6c757d;
+        color: #8c7c6b;
         text-transform: capitalize;
         margin-bottom: 1rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .forecast-details {
         display: flex;
         justify-content: space-between;
         font-size: 0.85rem;
-        color: #6c757d;
+        color: #8c7c6b;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
-    .weather-container .autocomplete-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #fff;
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 1000;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        margin-top: 4px;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    .weather-container .forecast-details i {
+        color: #b94a3a;
+        margin-right: 3px;
     }
-    
-    .weather-container .autocomplete-dropdown div {
-        padding: 0.75rem 1rem;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        border-bottom: 1px solid #f8f9fa;
-    }
-    
-    .weather-container .autocomplete-dropdown div:last-child {
-        border-bottom: none;
-    }
-    
-    .weather-container .autocomplete-dropdown div:hover {
-        background-color: #f8f9ff;
-        color: #667eea;
-    }
-    
+
     .weather-container .no-data {
         text-align: center;
         padding: 3rem;
-        color: #6c757d;
+        color: #8c7c6b;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .weather-container .no-data i {
         font-size: 3rem;
         margin-bottom: 1rem;
-        opacity: 0.5;
+        color: #e2b07b;
+        opacity: 0.7;
     }
-    
+
     .weather-container .no-data h4 {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         font-weight: 600;
         margin-bottom: 1rem;
+        color: #6c2e22;
     }
-    
+
     .weather-container .no-data p {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #8c7c6b;
     }
-    
+
+    @media (max-width: 1024px) {
+        .weather-container {
+            padding-top: 120px;
+        }
+    }
+
     @media (max-width: 768px) {
+        .weather-container {
+            padding-top: 110px;
+        }
+
         .weather-container .page-title {
             font-size: 2rem;
         }
@@ -371,6 +466,36 @@
         
         .weather-container .forecast-grid {
             grid-template-columns: 1fr;
+        }
+
+        .weather-container .weather-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .weather-container .search-section {
+            padding: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .weather-container {
+            padding-top: 100px;
+        }
+
+        .weather-container .main-container {
+            padding: 0 0.5rem;
+        }
+
+        .weather-container .weather-card {
+            padding: 1.5rem 1rem;
+        }
+
+        .weather-container .page-title {
+            font-size: 1.8rem;
+        }
+
+        .weather-container .temperature-main {
+            font-size: 2.5rem;
         }
     }
 </style>
@@ -404,7 +529,7 @@
         <div class="weather-card">
             <div class="current-weather">
                 <div class="location-info">
-                    <i class="fas fa-map-marker-alt" style="color: #dc3545;"></i>
+                    <i class="fas fa-map-marker-alt"></i>
                     <h2 class="location-name">{{ weather.city }}</h2>
                 </div>
                 

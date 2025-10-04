@@ -17,7 +17,7 @@
   </script>
 
   <!-- Category Filters -->
-  <section class="p-4 flex flex-wrap justify-between items-center gap-4 bg-secondary">
+  <section class="p-4 flex flex-wrap justify-between items-center gap-4 bg-card">
     <div class="flex flex-wrap gap-4">
       <form method="get" class="flex flex-wrap gap-4">
         <input type="hidden" name="search" value="{{ search }}">
@@ -55,12 +55,14 @@
   </section>
 
   <!-- Price & Search -->
-  <section class="p-4 flex flex-row gap-4 items-center justify-between bg-secondary">
+  <section class="p-4 flex flex-row gap-4 items-center justify-between bg-card">
     <div class="flex gap-2">
         <form method="get" class="flex gap-2 items-center">
             <input type="hidden" name="category" value="{{ selected_category }}">
             <input type="hidden" name="search" value="{{ search }}">
-            <select name="price" class="p-2 rounded border" onchange="this.form.submit()">
+            <select name="price"
+                    class="price-dropdown px-4 py-2 rounded-lg font-semibold shadow border-2"
+                    onchange="this.form.submit()">
                 <option value="all" {% if selected_price == 'all' or not selected_price %}selected{% endif %}>All Prices</option>
                 <option value="low" {% if selected_price == 'low' %}selected{% endif %}>Under $20</option>
                 <option value="mid" {% if selected_price == 'mid' %}selected{% endif %}>$20 - $50</option>
@@ -72,7 +74,7 @@
     <form method="get" class="flex gap-2 items-center justify-end w-full">
         <input type="hidden" name="category" value="{{ selected_category }}">
         <input type="hidden" name="price" value="{{ selected_price }}">
-        <input type="text" name="search" value="{{ search }}" placeholder="Search souvenirs..." class="p-2 rounded border w-full md:w-1/3" />
+        <input type="text" name="search" value="{{ search }}" placeholder="Search souvenirs..." class="p-2 rounded border bg-card border-accent text-text font-semibold shadow w-full md:w-1/3" />
         <button type="submit" class="px-4 py-2 rounded bg-primary text-white hover:bg-accent transition">Filter</button>
     </form>
   </section>

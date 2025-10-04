@@ -27,50 +27,37 @@
 <body>
 <style>
     :root {
-        --dark-green: #36471a;
-        --mid-green: #6c8d29;
-        --light-green: #d8e6c8;
-        --pale-green: #eff5e8;
+        --terracotta-dark: #6c2e22;
+        --terracotta-mid: #b94a3a;
+        --terracotta-light: #e2b07b;
+        --terracotta-pale: #f5ede6;
+        --terracotta-card: #fffaf6;
     }
-    
+
     @keyframes checkmark {
-        0% {
-            transform: scale(0);
-            opacity: 0;
-        }
-        50% {
-            transform: scale(1.2);
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
+        0% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
     }
-    
+
     @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-    
+
     body {
-        background: linear-gradient(135deg, var(--dark-green), var(--mid-green));
+        background: linear-gradient(135deg, var(--terracotta-dark), var(--terracotta-mid));
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 20px;
     }
-    
+
     .success-card {
-        background: rgba(255, 255, 255, 0.97);
+        background: var(--terracotta-card);
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 32px rgba(108,46,34,0.10);
         backdrop-filter: blur(10px);
         max-width: 600px;
         width: 100%;
@@ -78,11 +65,11 @@
         text-align: center;
         animation: fadeInUp 0.6s ease-out;
     }
-    
+
     .success-icon {
         width: 100px;
         height: 100px;
-        background: var(--pale-green);
+        background: var(--terracotta-pale);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -90,44 +77,45 @@
         margin: 0 auto 30px;
         animation: checkmark 0.8s ease-in-out;
     }
-    
+
     .success-icon i {
-        color: var(--dark-green);
+        color: var(--terracotta-dark);
         font-size: 50px;
     }
-    
+
     .success-title {
-        color: var(--dark-green);
+        color: var(--terracotta-dark);
         margin-bottom: 15px;
         font-size: 2.2em;
+        font-weight: 700;
     }
-    
+
     .transaction-details {
-        background: var(--pale-green);
+        background: var(--terracotta-pale);
         border-radius: 15px;
         padding: 20px;
         margin: 30px 0;
         text-align: left;
     }
-    
+
     .detail-row {
         display: flex;
         justify-content: space-between;
         padding: 12px 0;
-        border-bottom: 1px solid rgba(26, 71, 42, 0.1);
+        border-bottom: 1px solid rgba(108,46,34,0.08);
     }
-    
+
     .detail-row:last-child {
         border-bottom: none;
     }
-    
+
     .detail-label {
-        color: var(--dark-green);
+        color: var(--terracotta-mid);
         font-weight: 600;
     }
-    
+
     .btn-custom {
-        background: var(--mid-green);
+        background: var(--terracotta-mid);
         color: white;
         border: none;
         padding: 15px 30px;
@@ -137,39 +125,53 @@
         margin: 5px;
         min-width: 200px;
     }
-    
+
     .btn-custom:hover {
-        background: var(--dark-green);
+        background: var(--terracotta-dark);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(26, 71, 42, 0.3);
+        box-shadow: 0 5px 15px rgba(108,46,34,0.18);
         color: white;
     }
-    
+
     .btn-outline {
         background: transparent;
-        border: 2px solid var(--mid-green);
-        color: var(--mid-green);
+        border: 2px solid var(--terracotta-mid);
+        color: var(--terracotta-mid);
     }
-    
+
     .btn-outline:hover {
-        background: var(--mid-green);
+        background: var(--terracotta-mid);
+        color: white;
     }
-    
+
     .reference-number {
-        background: var(--pale-green);
+        background: var(--terracotta-pale);
         padding: 8px 15px;
         border-radius: 8px;
         font-family: monospace;
         font-size: 1.1em;
-        color: var(--dark-green);
+        color: var(--terracotta-dark);
     }
-    
+
     .success-message {
-        color: #666;
+        color: #8c7c6b;
         margin-bottom: 30px;
         animation: fadeInUp 0.8s ease-out 0.2s;
         opacity: 0;
         animation-fill-mode: forwards;
+    }
+
+    .text-success {
+        color: var(--terracotta-mid) !important;
+        font-weight: 600;
+    }
+
+    .detail-row i {
+        color: var(--terracotta-light);
+    }
+
+    .mt-4.text-muted small {
+        color: #8c7c6b;
     }
 </style>
 

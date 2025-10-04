@@ -6,15 +6,15 @@
 <style>
   /* Scope all styles to the food container to prevent affecting navbar */
   .food-container {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f1e8;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5ede6 0%, #ece6df 100%);
     margin: 0;
     padding: 20px 0;
     min-height: 100vh;
   }
 
   .food-container .recipe-section {
-    background-color: #f5f1e8;
+    background: transparent;
     padding: 40px 0;
     overflow: visible;
   }
@@ -36,46 +36,64 @@
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    color: #2c2c2c;
+    color: #6c2e22;
     margin-bottom: 1rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 3px rgba(108,46,34,0.1);
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .food-container .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #b94a3a 0%, #e2b07b 100%);
+    border-radius: 2px;
   }
 
   .food-container .section-subtitle {
     text-align: center;
-    color: #6c757d;
+    color: #8c7c6b;
     font-size: 1.1rem;
     margin-bottom: 3rem;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
   }
 
   .food-container .recipe-card {
-    background: white;
-    border-radius: 15px;
-    overflow: hidden; /* Changed from visible to hidden for image */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(185,74,58,0.08);
     transition: all 0.3s ease;
     height: 100%;
     position: relative;
     margin-bottom: 30px;
+    border: 1px solid #ece6df;
   }
 
   .food-container .recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(185,74,58,0.15);
+    border-color: #e2b07b;
   }
 
   .food-container .recipe-image {
     height: 200px;
-    background-color: #e9ecef;
+    background: linear-gradient(135deg, #ece6df 0%, #f3c892 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    border-radius: 15px 15px 0 0;
+    border-radius: 20px 20px 0 0;
     overflow: hidden;
   }
 
@@ -95,25 +113,28 @@
   .food-container .recipe-image.no-image::before {
     content: "🍽️";
     font-size: 3rem;
-    color: #adb5bd;
+    color: #b94a3a;
   }
 
   .food-container .category-tag {
     position: absolute;
     top: 15px;
     left: 15px;
-    background-color: #a83c32;
+    background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
     color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
+    padding: 8px 18px;
+    border-radius: 25px;
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     z-index: 10;
+    box-shadow: 0 2px 8px rgba(185,74,58,0.25);
+    border: 1px solid rgba(255,255,255,0.2);
   }
 
   .food-container .recipe-content {
     padding: 25px;
     position: relative;
+    background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
   }
 
   /* Fixed: Title and dropdown container */
@@ -128,11 +149,11 @@
   .food-container .recipe-title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #2c2c2c;
+    color: #6c2e22;
     margin: 0;
     flex: 1;
     padding-right: 15px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.3;
   }
 
@@ -148,11 +169,11 @@
   }
 
   .food-container .recipe-description {
-    color: #6c757d;
+    color: #8c7c6b;
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.6;
     margin-bottom: 20px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .food-container .recipe-meta {
@@ -164,9 +185,9 @@
 
   /* Fixed Dropdown styles */
   .food-container .dots-menu {
-    background: none;
-    border: none;
-    color: #a83c32;
+    background: linear-gradient(135deg, #e2b07b 0%, #f3c892 100%);
+    border: 2px solid #b94a3a;
+    color: #6c2e22;
     font-size: 1.5rem;
     padding: 8px 12px;
     cursor: pointer;
@@ -177,17 +198,20 @@
     justify-content: center;
     width: 40px;
     height: 40px;
+    box-shadow: 0 2px 8px rgba(185,74,58,0.15);
   }
 
   .food-container .dots-menu:hover {
-    background-color: #f5ede8;
-    color: #a83c32;
+    background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
+    color: #fff;
     transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(185,74,58,0.25);
   }
 
   .food-container .dots-menu:focus {
-    box-shadow: 0 0 0 3px rgba(168, 60, 50, 0.2);
-    background-color: #f5ede8;
+    box-shadow: 0 0 0 3px rgba(185,74,58,0.2);
+    background: linear-gradient(135deg, #b94a3a 0%, #b45309 100%);
+    color: #fff;
     outline: none;
   }
 
@@ -197,10 +221,10 @@
 
   /* Fixed dropdown menu positioning and z-index */
   .food-container .custom-dropdown-menu {
-    background-color: #ffffff;
-    border: 1px solid #a83c32;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(94, 47, 27, 0.2);
+    background: linear-gradient(135deg, #fffaf6 0%, #f9f5f0 100%);
+    border: 2px solid #e2b07b;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(185,74,58,0.15);
     padding: 8px 0;
     min-width: 240px;
     z-index: 1050;
@@ -210,7 +234,7 @@
     top: 100%;
     margin-top: 5px;
     transform: none;
-    /* Remove custom visibility styles - let Bootstrap handle it */
+    backdrop-filter: blur(10px);
   }
 
   /* Override Bootstrap's default dropdown positioning */
@@ -221,7 +245,7 @@
 
   .food-container .custom-dropdown-item {
     padding: 12px 20px;
-    color: #a83c32;
+    color: #6c2e22;
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -232,31 +256,37 @@
     width: 100%;
     text-align: left;
     font-size: 0.95rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
   }
 
   .food-container .custom-dropdown-item:hover {
-    background-color: #f5ede8;
-    color: #a83c32;
+    background: linear-gradient(135deg, #e2b07b 0%, #f3c892 100%);
+    color: #6c2e22;
     text-decoration: none;
     transform: translateX(5px);
+    border-radius: 8px;
+    margin: 0 8px;
   }
 
   .food-container .custom-dropdown-item:focus {
-    background-color: #f5ede8;
-    color: #a83c32;
+    background: linear-gradient(135deg, #e2b07b 0%, #f3c892 100%);
+    color: #6c2e22;
     outline: none;
+    border-radius: 8px;
+    margin: 0 8px;
   }
 
   .food-container .custom-dropdown-item i {
     width: 20px;
     text-align: center;
     font-size: 1.1rem;
+    color: #b94a3a;
   }
 
   .food-container .dropdown-divider {
-    border-top: 1px solid #e9ecef;
-    margin: 8px 0;
+    border-top: 1px solid #ece6df;
+    margin: 8px 12px;
   }
 
   /* Ensure dropdown appears above other content and prevent overflow issues */
@@ -274,6 +304,26 @@
   .food-container .col-lg-4:hover,
   .food-container .col-md-6:hover {
     z-index: 10;
+  }
+
+  /* Enhanced card animation */
+  .food-container .recipe-card {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .food-container .recipe-card:nth-child(1) { animation-delay: 0.1s; }
+  .food-container .recipe-card:nth-child(2) { animation-delay: 0.2s; }
+  .food-container .recipe-card:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 768px) {
@@ -302,11 +352,17 @@
       min-width: 220px;
       right: 10px;
     }
+
+    .food-container .dots-menu {
+      width: 36px;
+      height: 36px;
+      font-size: 1.3rem;
+    }
   }
 
   /* Loading state for images */
   .food-container .recipe-image.loading {
-    background: linear-gradient(90deg, #e9ecef 25%, #f8f9fa 50%, #e9ecef 75%);
+    background: linear-gradient(90deg, #ece6df 25%, #f3c892 50%, #ece6df 75%);
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
   }
@@ -314,6 +370,24 @@
   @keyframes loading {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+  }
+
+  /* Enhanced visual effects */
+  .food-container .recipe-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="%23e2b07b" fill-opacity="0.03"><circle cx="3" cy="3" r="1"/><circle cx="13" cy="13" r="1"/></g></svg>');
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .food-container .recipe-content {
+    position: relative;
+    z-index: 2;
   }
 </style>
 
