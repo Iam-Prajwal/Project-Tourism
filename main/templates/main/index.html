@@ -1,6 +1,17 @@
-{% extends "base.html" %} {% load static %} {% block title %}
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block title %}
 <title>HBHK - Bhaktapur Tourism</title>
-{% endblock title %} {% block content %}
+{% endblock title %} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock extra_css %}
+
+
+
+{% block content %}
 
 <!-- Hero Section -->
 <section class="hero-section">
