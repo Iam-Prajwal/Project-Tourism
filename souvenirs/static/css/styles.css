@@ -20,14 +20,6 @@
   --warm-gradient: linear-gradient(135deg, #e2b07b 0%, #f3c892 100%);
 }
 
-.dark {
-  --primary: #b45309;
-  --accent: #b94a3a;
-  --background: #3d2c22;
-  --text: #f5ede6;
-  --card: #6c2e22;
-  --secondary: #8c3a2b;
-}
 
 /* Global */
 body {
@@ -415,10 +407,7 @@ button[type="submit"].px-4:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(185,74,58,0.15);
 }
-.souvenir-action-box #darkToggle i {
-  font-size: 1.5rem;
-  vertical-align: middle;
-}
+
 .souvenir-action-box button,
 .souvenir-action-box i {
   color: #fff !important;
@@ -435,6 +424,38 @@ button[type="submit"].px-4:hover {
   border-radius: 0.5rem;
   transition: background 0.2s;
 }
+
+.souvenir-action-box .relative {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.souvenir-action-box .relative i {
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.souvenir-action-box .relative span {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.3rem;
+  font-size: 0.8rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  line-height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
 .souvenir-action-box button:hover,
 .souvenir-action-box .relative:hover,
 .souvenir-action-box i:hover {
@@ -474,10 +495,6 @@ button[type="submit"].px-4:hover {
   transition: transform 0.3s ease-in-out;
 }
 
-.dark #cartSidebar, .dark #wishlistSidebar {
-  background: linear-gradient(145deg, var(--card), #6c2e22);
-  border-left: 3px solid var(--accent);
-}
 
 /* Sidebar Header */
 #cartSidebar .sidebar-header, #wishlistSidebar .sidebar-header {
@@ -557,10 +574,6 @@ button[type="submit"].px-4:hover {
   overflow: hidden;
 }
 
-.dark .sidebar-product-row {
-  background: linear-gradient(135deg, var(--card), #8c3a2b);
-  border-color: #8c3a2b;
-}
 
 .sidebar-product-row::before {
   content: '';
@@ -921,28 +934,6 @@ button[type="submit"].px-4:hover {
   }
 }
 
-/* Dark mode adjustments */
-.dark .add-to-cart-btn {
-  background: var(--secondary-gradient);
-}
-
-.dark .add-to-wishlist-btn {
-  background: var(--warm-gradient);
-}
-
-.dark .add-to-wishlist-btn:hover {
-  background: var(--secondary-gradient);
-}
-
-.dark .details-menu-btn {
-  background: rgba(108,46,34,0.95);
-  color: #ece6df;
-}
-
-.dark .details-menu-btn:hover {
-  background: var(--accent);
-  color: #fff;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
