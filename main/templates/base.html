@@ -15,31 +15,29 @@
       integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
       crossorigin="anonymous"
     />
-    <!-- Font Awesome for icons -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+    <!-- For maps -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+
+    {% block extra_css %}{% endblock %}
+
+    <!-- Base CSS LAST so it wins over page styles -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-
-        <!-- For maps -->
-     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
-      <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
-
-    {% block extra_css %}   {% endblock %}
-
   </head>
   <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg">
+    <!-- Navigation Bar (locked style) -->
+    <nav id="app-navbar" class="app-nav navbar navbar-expand-lg">
       <div class="container-fluid">
         <div class="logo-container">
           <div class="logo-circle"></div>
           <a class="navbar-brand" href="#">HBHK</a>
         </div>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -48,116 +46,79 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          class="collapse navbar-collapse justify-content-center"
-          id="navbarNav"
-        >
+
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/' %} active {% endif %}"
-                href="{% url 'index' %}"
-                ><i class="fas fa-home"></i> Home</a
-              >
+              <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="{% url 'index' %}">
+                <i class="fas fa-home"></i> Home
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/sites/' %} active {% endif %}"
-                href="{% url 'sites' %}"
-                ><i class="fas fa-landmark"></i> Sites</a
-              >
+              <a class="nav-link {% if request.path == '/sites/' %} active {% endif %}" href="{% url 'sites' %}">
+                <i class="fas fa-landmark"></i> Sites
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/listoffood/' %} active {% endif %}"
-                href="{% url 'listoffood' %}"
-                ><i class="fas fa-utensils"></i> Foods & Drinks</a
-              >
+              <a class="nav-link {% if request.path == '/listoffood/' %} active {% endif %}" href="{% url 'listoffood' %}">
+                <i class="fas fa-utensils"></i> Foods & Drinks
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/events/' %} active {% endif %}"
-                href="{% url 'events' %}"
-              >
+              <a class="nav-link {% if request.path == '/events/' %} active {% endif %}" href="{% url 'events' %}">
                 <i class="far fa-calendar-alt"></i> Events
               </a>
             </li>
-            
-          <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/souvenirs/' %} active {% endif %}"
-                href="{% url 'souvenirs:souvenir_list' %}"
-                ><i class="fas fa-gift"></i> Souvenirs</a
-              >
-            </li>
-
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/tourism_services/' %} active {% endif %}"
-                href="{% url 'tourism_services' %}"
-                ><i class="fa-regular fa-map"></i> Tourism Services</a
-              >
+              <a class="nav-link {% if request.path == '/souvenirs/' %} active {% endif %}" href="{% url 'souvenirs:souvenir_list' %}">
+                <i class="fas fa-gift"></i> Souvenirs
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.path == '/weather/' %} active {% endif %}"
-                href="{% url 'weather' %}"
-              >
+              <a class="nav-link {% if request.path == '/tourism_services/' %} active {% endif %}" href="{% url 'tourism_services' %}">
+                <i class="fa-regular fa-map"></i> Tourism Services
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/weather/' %} active {% endif %}" href="{% url 'weather' %}">
                 <i class="fas fa-cloud-sun"></i> Weather
               </a>
             </li>
+
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="blogsDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="blogsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-book-open"></i> Blogs
               </a>
               <ul class="dropdown-menu" aria-labelledby="blogsDropdown">
-                <li>
-                  <a class="dropdown-item" href="{% url 'community' %}"
-                    >Share Experience</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'contribution' %}"
-                    >Contribute</a
-                  >
-                </li>
+                <li><a class="dropdown-item" href="{% url 'community' %}">Share Experience</a></li>
+                <li><a class="dropdown-item" href="{% url 'contribution' %}">Contribute</a></li>
               </ul>
             </li>
           </ul>
         </div>
 
-        <!-- Conditional Auth Buttons -->
         {% if user.is_authenticated %}
-        <div class="auth-buttons">
-          <a href="{% url 'log_out' %}" class="auth-btn-register">Logout</a>
-        </div>
+          <div class="auth-buttons">
+            <a href="{% url 'log_out' %}" class="auth-btn-register">Logout</a>
+          </div>
         {% else %}
-        <div class="auth-buttons">
-          <a href="{% url 'log_in' %}" class="auth-btn-login">Login</a>
-          <a href="{% url 'register' %}" class="auth-btn-register">Register</a>
-        </div>
+          <div class="auth-buttons">
+            <a href="{% url 'log_in' %}" class="auth-btn-login">Login</a>
+            <a href="{% url 'register' %}" class="auth-btn-register">Register</a>
+          </div>
         {% endif %}
 
         <div class="nav-icons">
-          <a href="{% url 'user_profile' %}" class="icon-link"
-            ><i class="fas fa-user"></i
-          ></a>
+          <a href="{% url 'user_profile' %}" class="icon-link"><i class="fas fa-user"></i></a>
           <a href="{% url 'view_wishlist' %}" class="icon-link"><i class="fas fa-heart"></i></a>
         </div>
       </div>
     </nav>
 
-    {% block content %} {% endblock content %}
+    {% block content %}{% endblock content %}
 
-    <!-- Footer -->
-    <footer class="site-footer">
+    <!-- Footer (locked style) -->
+    <footer id="app-footer" class="app-footer site-footer">
       <div class="container">
         <div class="row">
           <div class="col-md-3">
@@ -170,14 +131,12 @@
               <li><a href="{% url 'tourism_services' %}">Tourism Services</a></li>
             </ul>
           </div>
+
           <div class="col-md-6 footer-center">
             <div class="footer-logo-container">
               <div class="footer-logo">HB</div>
               <h3>HBHK</h3>
-              <p>
-                Your gateway to experiencing the cultural richness of Bhaktapur,
-                Nepal.
-              </p>
+              <p>Your gateway to experiencing the cultural richness of Bhaktapur, Nepal.</p>
             </div>
             <div class="social-icons">
               <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -185,21 +144,24 @@
               <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
           </div>
+
           <div class="col-md-1"></div>
+
           <div class="col-md-2">
             <h5 class="mb-3">Legals</h5>
             <ul class="footer-links">
-               <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a></li>
-               <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
-               <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Support</a></li>
-             </ul>
-           </div>
-         </div>
-         <div class="footer-bottom">
-           <p>&copy; 2025 All Rights Reserved</p>
-         </div>
-       </div>
-     </footer>
+              <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a></li>
+              <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
+              <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Support</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 All Rights Reserved</p>
+        </div>
+      </div>
+    </footer>
  
      <!-- Terms & Conditions Modal -->
      <div class="modal fade terms-modal" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
@@ -363,15 +325,9 @@
 </script>
     <!-- chatbot js ends -->
      
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js"
-      integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D"
-      crossorigin="anonymous"
-    ></script>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
   </body>
 </html>
