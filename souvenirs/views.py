@@ -516,6 +516,8 @@ def initiate_payment(request, order_id):
         'signature': signature,
     }
     return render(request, 'payment/payment_ways.html', context)
+
+
 def verify_payment(request):
     transaction_id = request.GET.get('q')  # Transaction ID from eSewa
     ref_id = request.GET.get('refId')  # Reference ID from eSewa
@@ -532,13 +534,16 @@ def verify_payment(request):
     if "Success" in response.text:
         return JsonResponse({"status": "Payment Verified"})
     return JsonResponse({"status": "Payment Verification Failed"})
+
 def decode_base64(data):
     decoded_data = base64.b64decode(data).decode('utf-8')
     print(decoded_data)
     return json.loads(decoded_data)
+
 def payment_failed(request):
     messages.error(request, "Payment failed. Please try again.")
     return redirect('rooms')
+
 def paymentsuccess(request,order_id):
     order=get_object_or_404(Order,id=order_id)
     payment_method='e-Sewa'
