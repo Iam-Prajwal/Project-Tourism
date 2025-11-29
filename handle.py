@@ -20,8 +20,3 @@ with open('data.json', 'r', encoding=encoding) as file:
 with open('data_utf8.json', 'w', encoding='utf-8') as file:
     json.dump(data, file)
 
-
-
-
-
-#sjdfdsjkvncisdkfbslsdkvcns
