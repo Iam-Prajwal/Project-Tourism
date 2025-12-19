@@ -71,8 +71,8 @@ A comprehensive Django-based web application for exploring Nepal's cultural heri
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/SalinBade35/FinalDefense.git
-   cd FinalDefense/Project-Tourism-main
+   git clone https://github.com/Iam-Prajwal/Project-Tourism.git
+   cd Project-Tourism-main
    ```
 
 2. **Create a virtual environment**
